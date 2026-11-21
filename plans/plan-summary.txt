@@ -1,0 +1,11 @@
+graph-benchmark-ldbc lazy 30 differ: none
+graph-benchmark-ldbc memory 30 differ: none
+graph-benchmark-ldbc-complex lazy 14 differ: 3
+graph-benchmark-ldbc-complex memory 14 differ: 3
+The 30-query suite had identical physical plans for all 30 queries in both modes. Thirteen of the 14 complex queries also matched line for line in each mode after stripping display padding. IC3 alone printed a different order for two ANDed equality predicates on the Place scan. Three additional EXPLAINs per mode on the baseline reproduced both orders. The operators, columns, graph traversal and predicates matched. IC3 mean timing changed by −0.7% in memory and +1.2% in lazy mode.
+
+All 16 official suite runs passed their expected answers. The benchmark process was the only validation slot in use at each run start. Per-query means, baseline repeat deltas and geometric means follow. For the feature-specific queries the named workaround runs on current upstream, and the unnamed spelling raises NotImplementedError there. On the branch, the exact published issue query returned [2, 3, 4, 5] in required and optional matches, with CSR enabled and disabled.
+
+The release patch SHA-256 is b521f96a426de834af817367672c36047d36735f00905e9db39ad89bcc031601. Rust passed 738 tests with 11 ignored. Python passed 1,763 tests with one skipped. Formatting, Clippy, Ruff, Pyright, spelling, the strict documentation build and 18 executable Cypher examples passed. The guide's optional separate 100K-person example dataset was unavailable; the two required SF1 benchmark datasets were present and exercised.
+
+The new operator follows the existing inventory's ID and label rules. IDs must be signed integers or uint8/16/32. Each endpoint needs a known label. The directed, single-type, unbounded, multi-segment and comma-separated forms do not enter the new standalone fast path.

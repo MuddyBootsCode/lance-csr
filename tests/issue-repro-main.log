@@ -1,0 +1,12 @@
+False bounded NotImplementedError Unsupported Cypher feature: relationship-type alternation in an undirected or named variable-length pattern
+False bound optional NotImplementedError Unsupported Cypher feature: relationship-type alternation in an undirected or named variable-length pattern
+False fixed hops [2, 3, 4, 5]
+False named ids [2, 3, 4, 5]
+False named optional ids [2, 3, 4, 5]
+False named rich path [2, 3, 4, 5]
+True bounded NotImplementedError Unsupported Cypher feature: relationship-type alternation in an undirected or named variable-length pattern
+True bound optional NotImplementedError Unsupported Cypher feature: relationship-type alternation in an undirected or named variable-length pattern
+True fixed hops [2, 3, 4, 5]
+True named ids [2, 3, 4, 5]
+True named optional ids [2, 3, 4, 5]
+True named rich path [2, 3, 4, 5]

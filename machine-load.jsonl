@@ -1,0 +1,16 @@
+{"run": "graph-benchmark-ldbc-memory-main-1", "time": 1795301310.220788, "load": [4.8115234375, 6.49755859375, 5.85009765625], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-memory-branch-1", "time": 1795301331.448232, "load": [5.853515625, 6.6396484375, 5.916015625], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-memory-main-2", "time": 1795301354.248086, "load": [6.39453125, 6.66162109375, 5.94189453125], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-memory-branch-2", "time": 1795301377.386155, "load": [6.01953125, 6.57958984375, 5.9296875], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-lazy-main-1", "time": 1795301400.52196, "load": [4.533203125, 6.1796875, 5.80322265625], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-lazy-branch-1", "time": 1795301423.264705, "load": [5.119140625, 6.21337890625, 5.82373046875], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-lazy-main-2", "time": 1795301446.8145971, "load": [4.1201171875, 5.8896484375, 5.7177734375], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-lazy-branch-2", "time": 1795301470.642698, "load": [4.57421875, 5.85009765625, 5.70751953125], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-complex-memory-main-1", "time": 1795301496.17569, "load": [5.54736328125, 5.93505859375, 5.7392578125], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-complex-memory-branch-1", "time": 1795301510.5772102, "load": [4.619140625, 5.708984375, 5.66162109375], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-complex-memory-main-2", "time": 1795301527.9382389, "load": [5.29052734375, 5.80419921875, 5.6962890625], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-complex-memory-branch-2", "time": 1795301542.501023, "load": [5.23095703125, 5.76416015625, 5.68310546875], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-complex-lazy-main-1", "time": 1795301557.0624151, "load": [4.36669921875, 5.54638671875, 5.6064453125], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-complex-lazy-branch-1", "time": 1795301573.095437, "load": [6.13720703125, 5.86572265625, 5.7177734375], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-complex-lazy-main-2", "time": 1795301589.4439738, "load": [6.435546875, 5.94091796875, 5.74658203125], "active_validation_slots": 1}
+{"run": "graph-benchmark-ldbc-complex-lazy-branch-2", "time": 1795301605.8981729, "load": [5.4521484375, 5.7470703125, 5.6806640625], "active_validation_slots": 1}

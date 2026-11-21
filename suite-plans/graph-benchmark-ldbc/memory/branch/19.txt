@@ -1,0 +1,15 @@
+      | SortPreservingMergeExec: [comment_count@1 DESC], fetch=1                                                                                                                               |
+|                    |   SortExec: TopK(fetch=1), expr=[comment_count@1 DESC], preserve_partitioning=[true]                                                                                                   |
+|                    |     ProjectionExec: expr=[l__name@0 as l.name, __agg_0@1 as comment_count]                                                                                                             |
+|                    |       AggregateExec: mode=FinalPartitioned, gby=[l__name@0 as l__name], aggr=[count(c__id) as __agg_0]                                                                                 |
+|                    |         RepartitionExec: partitioning=Hash([l__name@0], 18), input_partitions=18                                                                                                       |
+|                    |           AggregateExec: mode=Partial, gby=[l__name@1 as l__name], aggr=[count(c__id) as __agg_0]                                                                                      |
+|                    |             ProjectionExec: expr=[c__id@3 as c__id, l__name@6 as l__name]                                                                                                              |
+|                    |               CsrExpandExec: key=c__id, edges=2052169, take=l[l__name]                                                                                                                 |
+|                    |                 CsrExpandExec: key=t__id, edges=2698393, take=c[c__id*]                                                                                                                |
+|                    |                   ProjectionExec: expr=[id@0 as t__id]                                                                                                                                 |
+|                    |                     FilterExec: __string_contains(name@1, Copernicus), projection=[id@0]                                                                                               |
+|                    |                       KeyStatisticsExec: distinct=[id=16080]                                                                                                                           |
+|                    |                         RepartitionExec: partitioning=RoundRobinBatch(18), input_partitions=2                                                                                          |
+|                    |                           DataSourceExec: partitions=2, partition_sizes=[1, 1]                                                                                                         |
++--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+

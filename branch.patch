@@ -1,0 +1,470 @@
+diff --git a/crates/lance-csr/src/ast.rs b/crates/lance-csr/src/ast.rs
+index c3930b7..aa1f43e 100644
+--- a/crates/lance-csr/src/ast.rs
++++ b/crates/lance-csr/src/ast.rs
+@@ -252,6 +252,27 @@ pub struct MatchClause {
+     pub where_clause: Option<WhereClause>,
+ }
+ 
++impl MatchClause {
++    /// A standalone anonymous segment whose trails can share the named-path inventory.
++    pub(crate) fn is_bounded_undirected_alternation(&self) -> bool {
++        let [GraphPattern::Path(path)] = self.patterns.as_slice() else {
++            return false;
++        };
++        let [segment] = path.segments.as_slice() else {
++            return false;
++        };
++        let rel = &segment.relationship;
++        path.variable.is_none()
++            && path.shortest.is_none()
++            && path.start_node.labels.len() <= 1
++            && segment.end_node.labels.len() <= 1
++            && rel.direction == RelationshipDirection::Undirected
++            && rel.types.len() > 1
++            && rel.variable.is_none()
++            && rel.length.as_ref().is_some_and(|range| range.max.is_some())
++    }
++}
++
+ /// An UNWIND clause
+ #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+ pub struct UnwindClause {
+diff --git a/crates/lance-csr/src/datafusion_planner/builder/path_ops.rs b/crates/lance-csr/src/datafusion_planner/builder/path_ops.rs
+index 7b636ee..4bad187 100644
+--- a/crates/lance-csr/src/datafusion_planner/builder/path_ops.rs
++++ b/crates/lance-csr/src/datafusion_planner/builder/path_ops.rs
+@@ -190,12 +190,15 @@ impl DataFusionPlanner {
+                 properties: rel.properties.clone(),
+             });
+         }
+-        let variable = path
+-            .variable
+-            .as_ref()
+-            .or_else(|| path.shortest.as_ref().and_then(|s| s.variable.as_ref()))
+-            .cloned()
+-            .ok_or_else(|| error("rich path needs a variable".into()))?;
++        let variable = match &path.shortest {
++            Some(shortest) => Some(
++                shortest
++                    .variable
++                    .clone()
++                    .ok_or_else(|| error("rich path needs a variable".into()))?,
++            ),
++            None => path.variable.clone(),
++        };
+         let node = PathMatchNode::try_new(
+             plans,
+             PathSpec {
+diff --git a/crates/lance-csr/src/logical_plan.rs b/crates/lance-csr/src/logical_plan.rs
+index 063453d..af19dfb 100644
+--- a/crates/lance-csr/src/logical_plan.rs
++++ b/crates/lance-csr/src/logical_plan.rs
+@@ -910,6 +910,11 @@ impl<'a> LogicalPlanner<'a> {
+             ),
+             ..match_clause.clone()
+         };
++        if match_clause.is_bounded_undirected_alternation() {
++            if let [GraphPattern::Path(path)] = inferred.patterns.as_slice() {
++                return self.plan_inventory_path(base, path);
++            }
++        }
+         let match_clause = &inferred;
+         let retain_variable = self.retain_variable_alternation(&match_clause.patterns);
+         if crate::pattern_alternatives::needs_expansion(
+@@ -973,7 +978,7 @@ impl<'a> LogicalPlanner<'a> {
+                     }
+                 }
+                 GraphPattern::Path(path) if path.variable.is_some() => {
+-                    plan = Some(self.plan_named_path(plan, path)?)
++                    plan = Some(self.plan_inventory_path(plan, path)?)
+                 }
+                 GraphPattern::Path(path) if path.shortest.is_some() => {
+                     plan = Some(self.plan_shortest_path(plan, path)?)
+@@ -988,7 +993,7 @@ impl<'a> LogicalPlanner<'a> {
+                 {
+                     let mut path = path.clone();
+                     path.variable = Some(format!("_path_value_{}", self.variables.len()));
+-                    plan = Some(self.plan_named_path(plan, &path)?);
++                    plan = Some(self.plan_inventory_path(plan, &path)?);
+                 }
+                 GraphPattern::Path(path) => plan = Some(self.plan_path(plan, path)?),
+             }
+@@ -2028,7 +2033,7 @@ impl<'a> LogicalPlanner<'a> {
+         Ok(plan)
+     }
+ 
+-    fn plan_named_path(
++    fn plan_inventory_path(
+         &mut self,
+         base: Option<LogicalOperator>,
+         path: &PathPattern,
+@@ -2064,16 +2069,14 @@ impl<'a> LogicalPlanner<'a> {
+                 .cloned()
+                 .or_else(|| segment.end_node.labels.first().cloned())
+                 .ok_or_else(|| GraphError::UnsupportedFeature {
+-                    feature: "named path boundary needs a resolved node label".into(),
++                    feature: "path boundary needs a resolved node label".into(),
+                     location: Location::new(file!(), line!(), column!()),
+                 })?;
+             self.variables.insert(variable.clone(), label);
+         }
+-        let path_variable = path
+-            .variable
+-            .clone()
+-            .ok_or_else(|| GraphError::internal("a named path has a variable"))?;
+-        self.variables.insert(path_variable, "Path".into());
++        if let Some(variable) = &path.variable {
++            self.variables.insert(variable.clone(), "Path".into());
++        }
+         Ok(LogicalOperator::PathMatch {
+             input: Box::new(base),
+             path,
+@@ -3302,6 +3305,24 @@ mod tests {
+         }
+     }
+ 
++    #[test]
++    fn undirected_alternation_plans_one_inventory_without_a_path_variable() {
++        let config = GraphConfig::builder()
++            .node_table("N", "id")
++            .rel_table("A", "N", "N", "src", "dst")
++            .rel_table("B", "N", "N", "src", "dst")
++            .build()
++            .unwrap();
++        let ast = parse_cypher_query("MATCH (s:N)-[:A|B*1..3]-(q:N) RETURN q.id").unwrap();
++        let plan = LogicalPlanner::new(&config).plan(&ast).unwrap();
++        let LogicalOperator::Project { input, .. } = plan else {
++            panic!("expected projection");
++        };
++        assert!(
++            matches!(*input, LogicalOperator::PathMatch { path, .. } if path.variable.is_none())
++        );
++    }
++
+     #[test]
+     fn continued_path_starts_from_the_bound_end_with_smaller_fan_out() {
+         let config = GraphConfig::builder()
+diff --git a/crates/lance-csr/src/parameter_substitution.rs b/crates/lance-csr/src/parameter_substitution.rs
+index e4676d6..51d7d37 100644
+--- a/crates/lance-csr/src/parameter_substitution.rs
++++ b/crates/lance-csr/src/parameter_substitution.rs
+@@ -101,18 +101,19 @@ fn substitute_in_graph_pattern(
+     parameters: &HashMap<String, serde_json::Value>,
+ ) -> Result<()> {
+     match pattern {
+-        GraphPattern::Node(node) => {
+-            for value in node.properties.values_mut() {
+-                substitute_in_property_value(value, parameters)?;
+-            }
+-        }
+-        GraphPattern::Path(path) => {
+-            substitute_in_node_pattern(&mut path.start_node, parameters)?;
+-            for segment in &mut path.segments {
+-                substitute_in_relationship_pattern(&mut segment.relationship, parameters)?;
+-                substitute_in_node_pattern(&mut segment.end_node, parameters)?;
+-            }
+-        }
++        GraphPattern::Node(node) => substitute_in_node_pattern(node, parameters),
++        GraphPattern::Path(path) => substitute_in_path_pattern(path, parameters),
++    }
++}
++
++fn substitute_in_path_pattern(
++    path: &mut PathPattern,
++    parameters: &HashMap<String, serde_json::Value>,
++) -> Result<()> {
++    substitute_in_node_pattern(&mut path.start_node, parameters)?;
++    for segment in &mut path.segments {
++        substitute_in_relationship_pattern(&mut segment.relationship, parameters)?;
++        substitute_in_node_pattern(&mut segment.end_node, parameters)?;
+     }
+     Ok(())
+ }
+@@ -297,7 +298,12 @@ fn substitute_in_value_expression(
+             }
+         }
+         ValueExpression::Field { base, .. } => substitute_in_value_expression(base, parameters)?,
+-        ValueExpression::PatternComprehension { filter, map, .. } => {
++        ValueExpression::PatternComprehension {
++            pattern,
++            filter,
++            map,
++        } => {
++            substitute_in_path_pattern(pattern, parameters)?;
+             if let Some(b) = filter {
+                 substitute_in_boolean_expression(b, parameters)?;
+             }
+diff --git a/crates/lance-csr/src/path_match.rs b/crates/lance-csr/src/path_match.rs
+index d866534..8fa33ed 100644
+--- a/crates/lance-csr/src/path_match.rs
++++ b/crates/lance-csr/src/path_match.rs
+@@ -53,7 +53,7 @@ pub(crate) struct Step {
+ 
+ #[derive(Debug)]
+ pub(crate) struct PathSpec {
+-    pub variable: String,
++    pub variable: Option<String>,
+     /// Expose typed boundary-node values alongside their property columns.
+     pub node_values: bool,
+     pub sources: crate::path_inventory::SourceBatches,
+@@ -92,6 +92,10 @@ impl fmt::Debug for PathMatchNode {
+ }
+ 
+ impl PathMatchNode {
++    pub(crate) fn endpoints_only(&self) -> bool {
++        self.spec.variable.is_none()
++    }
++
+     pub fn try_new(inputs: Vec<LogicalPlan>, spec: PathSpec) -> Result<Self> {
+         let node_fields = property_fields(spec.nodes.iter().map(|s| s.schema.fields()))?;
+         let edge_fields = property_fields(spec.edges.iter().map(|s| s.schema.fields()))?;
+@@ -154,11 +158,13 @@ impl PathMatchNode {
+                 }
+             }
+         }
+-        fields.push(Field::new(
+-            spec.variable.to_lowercase(),
+-            path_type(node_type, edge_type),
+-            true,
+-        ));
++        if let Some(variable) = &spec.variable {
++            fields.push(Field::new(
++                variable.to_lowercase(),
++                path_type(node_type, edge_type),
++                true,
++            ));
++        }
+         let schema = Arc::new(input.join(&DFSchema::try_from(Schema::new(fields))?)?);
+         Ok(Self {
+             inputs,
+@@ -220,7 +226,7 @@ impl UserDefinedLogicalNodeCore for PathMatchNode {
+         write!(
+             f,
+             "PathMatch: {}, {}",
+-            self.spec.variable,
++            self.spec.variable.as_deref().unwrap_or("endpoints"),
+             if self.spec.shortest.is_some() {
+                 "shortest edge inventory"
+             } else {
+@@ -326,7 +332,11 @@ impl fmt::Debug for PathMatchExec {
+ 
+ impl DisplayAs for PathMatchExec {
+     fn fmt_as(&self, _: DisplayFormatType, f: &mut fmt::Formatter) -> fmt::Result {
+-        write!(f, "PathMatchExec: {} edge inventory", self.spec.variable)
++        write!(
++            f,
++            "PathMatchExec: {} edge inventory",
++            self.spec.variable.as_deref().unwrap_or("endpoints")
++        )
+     }
+ }
+ impl ExecutionPlan for PathMatchExec {
+@@ -464,11 +474,13 @@ impl ExecutionPlan for PathMatchExec {
+                             };
+                             columns.push(take(array, &positions, None)?);
+                         }
+-                        columns.push(paths_array(
+-                            &paths,
+-                            &p.graph.inventory.nodes,
+-                            &p.graph.inventory.edges,
+-                        )?);
++                        if spec.variable.is_some() {
++                            columns.push(paths_array(
++                                &paths,
++                                &p.graph.inventory.nodes,
++                                &p.graph.inventory.edges,
++                            )?);
++                        }
+                         let batch = RecordBatch::try_new(schema, columns)?;
+                         return Ok(Some((batch, (input, pending))));
+                     }
+@@ -931,7 +943,7 @@ mod tests {
+             properties: HashMap::new(),
+         };
+         let spec = PathSpec {
+-            variable: "p".into(),
++            variable: Some("p".into()),
+             node_values: false,
+             sources: Default::default(),
+             nodes: vec![NodeSource {
+diff --git a/crates/lance-csr/src/pattern_alternatives.rs b/crates/lance-csr/src/pattern_alternatives.rs
+index 3c7b46c..8b2132f 100644
+--- a/crates/lance-csr/src/pattern_alternatives.rs
++++ b/crates/lance-csr/src/pattern_alternatives.rs
+@@ -728,7 +728,7 @@ mod tests {
+     fn missing_endpoints_and_variable_length_alternation_are_errors() {
+         // `knows` has no endpoint labels, so the multi-label end can't be resolved.
+         assert!(branches("MATCH (a:Person)-[:knows]->(m:Post:Comment) RETURN m").is_err());
+-        // Undirected variable-length alternation is not supported.
++        // The branch unroller cannot handle undirected trails with unresolved endpoint labels.
+         assert!(branches("MATCH (a)-[:replyOfPost|replyOfComment*1..2]-(m) RETURN m").is_err());
+         // Contradictory: postHasCreator never starts at a Comment.
+         assert!(branches(
+diff --git a/crates/lance-csr/src/query.rs b/crates/lance-csr/src/query.rs
+index 59a93a5..7a6cfda 100644
+--- a/crates/lance-csr/src/query.rs
++++ b/crates/lance-csr/src/query.rs
+@@ -393,9 +393,11 @@ impl CypherQuery {
+                         .filter_map(|stage| stage.with_clause.limit.as_ref()),
+                 )
+                 .any(|count| matches!(count, crate::ast::RowCount::Parameter(_)))
+-                || query
+-                    .all_reading_clauses()
+-                    .any(|clause| matches!(clause, ReadingClause::Call(_)));
++                || query.all_reading_clauses().any(|clause| match clause {
++                    ReadingClause::Call(_) => true,
++                    ReadingClause::Match(m) => m.is_bounded_undirected_alternation(),
++                    _ => false,
++                });
+         });
+         if shape_sensitive
+             || self.scalar_parameters().is_none()
+@@ -405,6 +407,18 @@ impl CypherQuery {
+             return Ok(false);
+         }
+         let (graph, datafusion) = self.build_logical_plans(catalog.clone(), true)?;
++        // Predicates and comprehensions can also plan a PathMatch below the outer MATCH.
++        // Its filters and inventory belong to one execution, outside template binding.
++        use datafusion::common::tree_node::TreeNode;
++        if datafusion.exists(|node| {
++            Ok(
++                matches!(node, datafusion::logical_expr::LogicalPlan::Extension(ext)
++                if ext.node.as_any().downcast_ref::<crate::path_match::PathMatchNode>()
++                    .is_some_and(|path| path.endpoints_only())),
++            )
++        })? {
++            return Ok(false);
++        }
+         self.cached_plan = Some(Arc::new(CachedPlan {
+             graph,
+             datafusion,
+diff --git a/docs/cypher.md b/docs/cypher.md
+index 1447445..0e06b84 100644
+--- a/docs/cypher.md
++++ b/docs/cypher.md
+@@ -374,8 +374,12 @@ RETURN length(p), nodes(p)
+ - **Variable-length alternation** follows each relationship type's configured endpoint labels. With
+   suitable CSR and node indexes, a mixed path such as `[:hasType|isSubclassOf*1..3]` stays in one operator.
+   Named paths also support typed variable-length alternation through their edge inventory.
+-  Unnamed undirected variable-length alternation remains unsupported.
+-- **Undirected variable-length paths** skip immediate backtracking (`a-b-a`).
++  A standalone undirected segment with an explicit upper bound and multiple types, such as
++  `MATCH (a:Person)-[:KNOWS|WORKS_WITH*1..3]-(b:Person) RETURN b.id`, can change
++  direction at each hop. Its endpoints need known labels and integer keys. Each stored
++  relationship can occur only once per trail, so parallel edges can yield repeated endpoints.
++  This form also works in `OPTIONAL MATCH`.
++- **Unnamed single-type undirected variable-length paths** skip immediate backtracking (`a-b-a`).
+ - **Relationship uniqueness**: within one `MATCH`, two single-hop relationships of the same type never
+   bind the same edge, whether they are named or anonymous, in one pattern or in comma-separated parts.
+   `(a)-[:KNOWS]->(b)<-[:KNOWS]-(c)` therefore never matches `c = a`. Separate `MATCH` clauses may bind the
+diff --git a/docs/internals/operators.md b/docs/internals/operators.md
+index 1365bd4..b9f790a 100644
+--- a/docs/internals/operators.md
++++ b/docs/internals/operators.md
+@@ -286,6 +286,10 @@ collide with identity metadata. When an untyped match combines branches, the pla
+ marked property fields by name before casting each branch to the common schema. This also preserves
+ the node records nested inside a path or a relationship endpoint. See [path values](../cypher.md#path-values).
+ 
++For an unnamed, bounded undirected segment with several types, the same operator emits
++boundary columns and skips building the Arrow path value for each trail. It still builds the
++inventory of participating tables and tracks edge occurrences during traversal.
++
+ ## `Apply`: correlated CALL subqueries
+ 
+ A read-only `CALL { ... }` body runs once per incoming row: its `LIMIT` and aggregates apply to each row, not to the
+diff --git a/python/python/tests/test_engine_alternation.py b/python/python/tests/test_engine_alternation.py
+index d354925..8c6127a 100644
+--- a/python/python/tests/test_engine_alternation.py
++++ b/python/python/tests/test_engine_alternation.py
+@@ -153,6 +153,90 @@ def test_variable_length_mixed_labels_keep_identity_separate(use_csr, minimum):
+     assert rows(engine.execute(same_label)) == [(1,), (2,), (3,)]
+ 
+ 
++@pytest.mark.parametrize("use_csr", [False, True])
++def test_undirected_bounded_alternation(datasets, use_csr):
++    engine = CypherEngine(config(), datasets, use_csr=use_csr)
++    types = "postHasCreator|commentHasCreator|replyOfComment"
++    path = f"(p:Post {{id: 10}})-[:{types}*1..3]-(q:Comment)"
++    query = f"MATCH {path} RETURN q.id, q.score"
++    # Two trails reach each comment: via the creator and via the other comment.
++    expected = [(20, 7), (20, 7), (21, 9), (21, 9)]
++    assert rows(engine.execute(query)) == expected
++    assert rows(engine.execute(f"MATCH pth = {path} RETURN q.id, q.score")) == expected
++    physical = engine.explain(query).split("physical_plan", 1)[1]
++    assert physical.count("PathMatchExec: endpoints") == 1
++    assert "UnionExec" not in physical
++
++    # The application carries its starting nodes through UNWIND and collects endpoints.
++    carried = (
++        "MATCH (s:Post {id: 10}) WITH collect(s) AS seeds UNWIND seeds AS p "
++        f"OPTIONAL MATCH (p)-[:{types}*1..3]-(q:Comment) "
++        "WITH collect(DISTINCT q) AS endpoints UNWIND endpoints AS c RETURN c.id"
++    )
++    assert rows(engine.execute(carried)) == [(20,), (21,)]
++
++    # Post 11 has one way out. Reusing that edge is not a trail.
++    query = (
++        "MATCH (p:Post {id: 11}) "
++        "OPTIONAL MATCH (p)-[:postHasCreator|commentHasCreator*1..2]-(q:Post) "
++        "RETURN p.id AS p, q.id AS q"
++    )
++    assert engine.execute(query).to_pylist() == [{"p": 11, "q": None}]
++
++
++def test_undirected_alternation_parallel_edges_and_zero_hops():
++    cfg = (
++        GraphConfig.builder()
++        .node_table("N", "id")
++        .rel_table("A", "N", "N", "src", "dst")
++        .rel_table("B", "N", "N", "src", "dst")
++        .build()
++    )
++    tables = {
++        "N": pa.table({"id": [1, 2]}),
++        "A": pa.table({"src": [2, 2], "dst": [1, 1]}),
++        "B": pa.table({"src": [2], "dst": [2]}),
++    }
++    engine = CypherEngine(cfg, tables)
++    query = "MATCH (s:N {id: $seed})-[:A|B*0..2]-(q:N) RETURN q.id"
++    # One zero-hop match, two parallel edges, two returns via different edges,
++    # and one way per arriving edge to traverse the self-loop.
++    assert rows(engine.execute(query, {"seed": 1})) == [(1,)] * 3 + [(2,)] * 4
++    comp = "MATCH (s:N {id: 1}) RETURN [(s)-[:A|B*1..2]-(q:N {id: $t}) | q.id] AS ids"
++    for target, expected in [(2, [2] * 4), (1, [1] * 2)]:
++        assert engine.execute(comp, {"t": target}).to_pylist() == [{"ids": expected}]
++    other = engine.execute(query, {"seed": 2})
++    assert rows(other) == rows(
++        engine.execute(query.replace("MATCH ", "MATCH p = "), {"seed": 2})
++    )
++
++
++@pytest.mark.parametrize(
++    "predicate",
++    [
++        "(s)-[:A|B*1..2]-(:N {id: $target})",
++        "EXISTS { MATCH (s)-[:A|B*1..2]-(:N {id: $target}) }",
++    ],
++)
++def test_undirected_alternation_predicate_rebinds_parameters(predicate):
++    cfg = (
++        GraphConfig.builder()
++        .node_table("N", "id")
++        .rel_table("A", "N", "N", "src", "dst")
++        .rel_table("B", "N", "N", "src", "dst")
++        .build()
++    )
++    tables = {
++        "N": pa.table({"id": [1, 2, 3, 4]}),
++        "A": pa.table({"src": [2], "dst": [1]}),
++        "B": pa.table({"src": [2], "dst": [3]}),
++    }
++    engine = CypherEngine(cfg, tables)
++    query = f"MATCH (s:N {{id: 1}}) WHERE {predicate} RETURN s.id"
++    for target, expected in [(3, [(1,)]), (4, []), (2, [(1,)])]:
++        assert rows(engine.execute(query, {"target": target})) == expected
++
++
+ def test_collect_distinct(datasets):
+     engine = CypherEngine(config(), datasets)
+     got = engine.execute(

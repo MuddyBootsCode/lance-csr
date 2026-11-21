@@ -1,0 +1,13 @@
+[{'city': 'London', 'people': ['Alice', 'Bob'], 'avg_age': 31.0}, {'city': 'Sydney', 'people': ['Carol', 'David'], 'avg_age': 35.5}]
+4
+Query timeout exceeded
+True
+True
+{'name': ['Bob', 'David']}
+[{'person': 'Alice', 'friend': 'Bob'}, {'person': 'Bob', 'friend': 'David'}, {'person': 'Carol', 'friend': 'David'}]
+[{'names': ['Alice', 'Bob'], 'targets': [2]}, {'names': ['Alice', 'Carol'], 'targets': [3]}]
+[{'text': '猫😀', 'numbers': [5, 3, 1], 'rounded': -1.0}]
+[{'labels': ['Person'], 'properties': 3}]
+[{'ordered': 123, 'positive': True, 'exactly_one': True}]
+[{'name': 'Alice', 'friends': 2, 'band': 'junior'}, {'name': 'Bob', 'friends': 1, 'band': 'senior'}]
+ran 18 blocks from cypher.md

@@ -1,0 +1,6 @@
+uv run --no-sync ruff check python
+All checks passed!
+uv run --no-sync ruff format --check python
+60 files already formatted
+uv run --no-sync pyright
+0 errors, 0 warnings, 0 informations

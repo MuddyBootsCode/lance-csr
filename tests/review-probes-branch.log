@@ -1,0 +1,11 @@
+named EXISTS 3 RuntimeError Query execution error: Failed to plan query results: Execution error: Placeholder '$target' was not provided a value for execution.
+named EXISTS 4 RuntimeError Query execution error: Failed to plan query results: Execution error: Placeholder '$target' was not provided a value for execution.
+named EXISTS 2 RuntimeError Query execution error: Failed to plan query results: Execution error: Placeholder '$target' was not provided a value for execution.
+SF1 46 2 p =  [{'trails': 9, 'endpoints': 9}]
+SF1 46 2  [{'trails': 9, 'endpoints': 9}]
+SF1 46 3 p =  [{'trails': 88, 'endpoints': 88}]
+SF1 46 3  [{'trails': 88, 'endpoints': 88}]
+SF1 182 2 p =  [{'trails': 5061, 'endpoints': 5061}]
+SF1 182 2  [{'trails': 5061, 'endpoints': 5061}]
+SF1 182 3 p =  [{'trails': 9901, 'endpoints': 9901}]
+SF1 182 3  [{'trails': 9901, 'endpoints': 9901}]
