@@ -60,6 +60,22 @@ Every query initially more than 20% slower was repeated twice per build, alterna
 | graph-benchmark-ldbc | lazy | 6 | +40.1% | 0.943 | 0.748 | 0.892 | 0.727 | -4.2% |
 | graph-benchmark-ldbc-complex | memory | 13 | +20.2% | 1.283 | 1.275 | 1.288 | 1.439 | +6.6% |
 
+## Counterbalanced release-wheel checks
+
+Three additional blocks rotated wheel order so each build ran once in each position. The runs used the same in-memory SF1 datasets and pytest benchmark settings. Each cell lists the three per-run means in block order, in milliseconds. The final columns compare the arithmetic means.
+
+| Suite | Query | Base | Original PR | Revised PR | Revised vs base | Revised vs original PR |
+|---|---:|---|---|---|---:|---:|
+| graph-benchmark-ldbc-complex | 13 | 1.848 / 1.804 / 1.768 | 1.730 / 1.736 / 1.738 | 1.782 / 1.701 / 1.779 | -2.9% | +1.1% |
+| graph-benchmark-ldbc | 20 | 2.651 / 2.302 / 2.370 | 2.946 / 2.341 / 2.262 | 2.306 / 2.257 / 2.214 | -7.4% | -10.2% |
+| graph-benchmark-ldbc | 21 | 1.225 / 1.243 / 1.278 | 1.694 / 1.317 / 1.249 | 1.353 / 1.392 / 1.176 | +4.6% | -8.0% |
+| graph-benchmark-ldbc | 22 | 1.338 / 1.267 / 1.240 | 1.201 / 1.153 / 1.195 | 1.312 / 1.292 / 1.331 | +2.3% | +10.9% |
+| graph-benchmark-ldbc | 25 | 1.404 / 1.416 / 1.307 | 1.322 / 1.332 / 1.374 | 1.368 / 1.438 / 1.373 | +1.3% | +3.7% |
+
+The earlier in-memory IC13 repeats showed the revised wheel 20.2% and 6.6% slower than base. In the rotated comparison the revised wheel averaged 2.9% faster than base and 1.1% slower than the original PR. Its comparison with base changed direction. These measurements establish no consistent IC13 slowdown from the label check.
+
+The revised wheel was slower than the original PR in all three Q22 blocks (+10.9% on average, +2.3% versus base). Q25 measured +3.7% versus the original PR and +1.3% versus base. Q22 uses fixed-hop CSR expansions and its physical plan matched across revisions. These measurements do not identify the cause of the timing difference. [Q22 physical plan](suite-plans/graph-benchmark-ldbc/memory/branch/22.txt) · [Run logs and per-round timings](order-check)
+
 ## Feature workload and tests
 
 For the high-degree, three-hop SF1 traversal, all builds returned 9,901 distinct tags. The two in-memory medians on the revised unnamed form were 6.68 and 6.73 ms, compared with 8.32 and 8.12 ms on the upstream named workaround. Lazy Lance medians were 8.24 and 7.94 ms on the revised unnamed form and 9.49 and 9.87 ms on the upstream named form. These numbers compare the entire feature with the workaround.

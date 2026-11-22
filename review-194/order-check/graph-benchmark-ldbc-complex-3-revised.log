@@ -1,0 +1,14 @@
+.                                                                        [100%]
+Wrote benchmark data in: work/order-check/graph-benchmark-ldbc-complex-3-revised.json
+
+
+----------------------------------------------- benchmark: 1 tests ----------------------------------------------
+Name (time in ms)             Min     Max    Mean  StdDev  Median     IQR  Outliers       OPS  Rounds  Iterations
+-----------------------------------------------------------------------------------------------------------------
+test_benchmark_query13     1.4588  6.1375  1.7793  0.2810  1.7425  0.1767      17;6  562.0039     328           1
+-----------------------------------------------------------------------------------------------------------------
+
+Legend:
+  Outliers: 1 Standard Deviation from Mean; 1.5 IQR (InterQuartile Range) from 1st Quartile and 3rd Quartile.
+  OPS: Operations Per Second, computed as 1 / Mean
+1 passed in 2.59s
