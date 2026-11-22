@@ -1,0 +1,847 @@
+   Compiling lance-csr v0.14.0 (work/src/crates/lance-csr)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 51.06s
+     Running unittests src/lib.rs (bench/lance-csr/target/debug/deps/lance_csr-3f432614d996c519)
+
+running 478 tests
+test apply::tests::call_bypasses_snapshot_templates_in_every_reading_stage ... ok
+test apply::tests::call_empty_memory_batches_yield_before_end_of_stream ... ok
+test apply::tests::call_empty_outer_never_evaluates_child ... ok
+test apply::tests::call_parser_requires_returning_read_only_body ... ok
+test apply::tests::call_inner_names_are_lexical_and_exports_explicit ... ok
+test apply::tests::call_nested_and_sibling_imports_have_separate_bindings ... ok
+test apply::tests::call_per_row_top_k_and_entity_export ... ok
+test apply::tests::call_union_branches_bind_independently_and_keep_outer_duplicates ... ok
+test ast::tests::test_node_pattern_creation ... ok
+test ast::tests::test_property_ref ... ok
+test ast::tests::test_relationship_pattern_creation ... ok
+test case_insensitive::tests::test_case_insensitive_lookup_exact_match_fast_path ... ok
+test case_insensitive::tests::test_case_insensitive_lookup_trait ... ok
+test case_insensitive::tests::test_case_insensitive_map ... ok
+test case_insensitive::tests::test_case_insensitive_map_insertion_deduplication ... ok
+test case_insensitive::tests::test_case_insensitive_str_as_str ... ok
+test case_insensitive::tests::test_case_insensitive_str_equality ... ok
+test case_insensitive::tests::test_case_insensitive_str_from_str ... ok
+test case_insensitive::tests::test_case_insensitive_str_from_string ... ok
+test case_insensitive::tests::test_case_insensitive_str_hash ... ok
+test case_insensitive::tests::test_case_insensitive_str_inequality ... ok
+test case_insensitive::tests::test_get_mut_ci ... ok
+test case_insensitive::tests::test_property_name_normalization ... ok
+test case_insensitive::tests::test_qualify_column ... ok
+test config::tests::deserialization_validates_through_the_builder ... ok
+test config::tests::rel_table_endpoints_must_be_node_tables ... ok
+test config::tests::test_case_insensitive_node_label_lookup ... ok
+test config::tests::test_case_insensitive_relationship_type_lookup ... ok
+test config::tests::test_duplicate_label_different_case_should_overwrite ... ok
+test config::tests::test_graph_config_builder ... ok
+test config::tests::test_mapping_iterators_keep_normalized_keys_and_original_labels ... ok
+test config::tests::test_node_mapping_with_properties ... ok
+test config::tests::test_validation_empty_id_field ... ok
+test apply::tests::call_union_uses_coerced_schema_for_numbers_and_nulls ... ok
+test csr_expand::csr_memory_probe::sf1_memory_ledger ... ignored
+test csr_expand::node_lookup::tests::looks_up_columns_with_nulls_for_unknown_ids ... ok
+test apply::tests::call_aggregate_keeps_empty_child_and_outer_multiplicity ... ok
+test csr_expand::tests::build_keeps_duplicates_skips_nulls_and_handles_large_ids ... ok
+test cross_join_order::tests::builds_on_the_side_with_fewer_rows ... ok
+test csr_expand::tests::build_numbers_sources_in_table_order ... ok
+test csr_expand::tests::cancellation_without_edges_in_variable_paths_yields_between_source_rows ... ok
+test csr_expand::tests::cancellation_without_edges_yields_while_skipping_source_rows ... ok
+test csr_expand::tests::changes_layer_over_shared_base_with_multiset_tombstones ... ok
+test csr_expand::tests::chunk_boundaries_preserve_closing_edges_and_missing_target_rows ... ok
+test csr_expand::tests::debug_output_does_not_grow_with_edges ... ok
+test csr_expand::tests::degree_bound_counts_base_and_appended_edges_in_both_directions ... ok
+test apply::tests::call_union_node_exports_and_empty_aggregate_branches ... ok
+test csr_expand::tests::edge_mask_marks_rows_per_fragment ... ok
+test csr_expand::tests::expansion_repeats_rows_per_neighbor_and_resumes_between_chunks ... ok
+test csr_expand::tests::expansion_yields_and_resumes_through_a_long_tombstone_run ... ok
+test csr_expand::tests::expansion_yields_before_scanning_all_rejected_neighbors ... ok
+test csr_expand::tests::edge_columns_read_once_match_fetches_by_row_address ... ok
+test csr_expand::tests::many_small_changes_match_a_reference_multiset ... ok
+test csr_expand::tests::high_degree_expansion_visits_only_the_first_chunk ... ok
+test csr_expand::tests::node_rows_reject_duplicate_ids_and_skip_nulls ... ok
+test csr_expand::tests::packed_ranges_preserve_the_full_u32_boundary ... ok
+test csr_expand::tests::relationship_filter_runs_per_chunk_or_as_a_mask ... ok
+test csr_expand::tests::materialization_reuses_filter_columns_for_memory_and_lance ... ok
+test csr_expand::tests::resumed_neighbors_cross_the_base_and_delta_boundary ... ok
+test csr_expand::tests::resumed_neighbors_keep_duplicate_deletions_and_self_loops_exact ... ok
+test csr_expand::tests::source_layouts_agree_and_round_trip ... ok
+test csr_expand::tests::undirected_neighbors_visit_both_directions_and_self_loops_once ... ok
+test csr_index::tests::packed_values_round_trip ... ok
+test csr_index::tests::test_auto_inferred_num_vertices ... ok
+test csr_index::tests::test_basic_neighbor_lookup ... ok
+test csr_index::tests::test_empty_graph ... ok
+test csr_index::tests::test_isolated_vertices ... ok
+test csr_index::tests::test_metadata ... ok
+test csr_index::tests::test_out_of_range_vertex ... ok
+test csr_index::tests::test_parallel_edges ... ok
+test csr_index::tests::test_self_loops ... ok
+test csr_traversal::tests::cancellation_visits_raw_tombstones_before_returning_the_live_path ... ok
+test csr_traversal::tests::typed_walk_keeps_duplicates_and_skips_missing_intermediate_nodes ... ok
+test csr_traversal::tests::walk_yields_while_no_candidate_can_match_the_target_label ... ok
+test csr_traversal::tests::zero_hop_is_identity_and_depth_bound_survives_cycles ... ok
+test datafusion_planner::analysis::tests::test_planning_context_tracks_instances ... ok
+test datafusion_planner::analysis::tests::test_query_analysis_single_hop ... ok
+test datafusion_planner::analysis::tests::test_query_analysis_two_hop ... ok
+test datafusion_planner::analysis::tests::test_varlength_expand_analysis_registers_instances ... ok
+test datafusion_planner::builder::aggregate_ops::tests::count_of_a_relationship_counts_rows_where_it_matched ... ok
+test datafusion_planner::builder::aggregate_ops::tests::test_project_with_aggregate_alias ... ok
+test datafusion_planner::builder::aggregate_ops::tests::test_project_with_aggregate_without_alias ... ok
+test datafusion_planner::builder::basic_ops::tests::test_cypher_dot_notation_mixed_with_and_without_alias ... ok
+test datafusion_planner::builder::basic_ops::tests::test_cypher_dot_notation_multiple_properties ... ok
+test datafusion_planner::builder::basic_ops::tests::test_cypher_dot_notation_simple_property ... ok
+test datafusion_planner::builder::basic_ops::tests::test_df_planner_scan_filter_project ... ok
+test datafusion_planner::builder::basic_ops::tests::test_distinct_and_order_with_qualified_columns ... ok
+test datafusion_planner::builder::basic_ops::tests::test_order_by_multiple_columns ... ok
+test datafusion_planner::builder::basic_ops::tests::test_order_by_single_column_asc ... ok
+test datafusion_planner::builder::basic_ops::tests::test_order_by_with_limit ... ok
+test datafusion_planner::builder::basic_ops::tests::test_project_mixed_with_and_without_alias ... ok
+test datafusion_planner::builder::basic_ops::tests::test_project_with_alias ... ok
+test datafusion_planner::builder::basic_ops::tests::test_project_with_multiple_aliases ... ok
+test datafusion_planner::builder::basic_ops::tests::test_skip_limit_after_aliasing ... ok
+test csr_expand::tests::target_columns_read_once_match_fetches_by_row_id ... ok
+test datafusion_planner::builder::comprehension_ops::tests::iterated_list_is_returned_unchanged ... ok
+test csr_expand::tests::build_numbers_sources_in_key_order_for_bitmaps ... ok
+test datafusion_planner::builder::comprehension_ops::tests::comprehension_counts_keep_nulls_duplicates_and_empty_rows ... ok
+test datafusion_planner::builder::count_ops::tests::grouped_count_plan_boundaries ... ok
+test csr_expand::tests::bitmaps_are_chosen_only_for_many_clustered_keys ... ok
+test datafusion_planner::builder::count_ops::tests::csr_hops_count_degrees_in_place ... ok
+test datafusion_planner::builder::count_ops::tests::only_relationships_a_filter_reads_fetch_edges ... ok
+test datafusion_planner::builder::count_ops::tests::filters_decide_which_self_loops_are_subtracted ... ok
+test datafusion_planner::builder::count_ops::tests::grouped_zero_paths_and_cached_filters ... ok
+test datafusion_planner::builder::count_ops::tests::other_queries_keep_the_join_plan ... ok
+test datafusion_planner::builder::count_ops::tests::other_two_hop_shapes ... ok
+test datafusion_planner::builder::count_ops::tests::root_hop_counted_per_node ... ok
+test datafusion_planner::builder::count_ops::tests::self_loops_at_the_middle_node ... ok
+test datafusion_planner::builder::count_ops::tests::same_type_hops_sharing_an_end ... ok
+test datafusion_planner::builder::expand_ops::tests::test_df_planner_expand_creates_join_filter ... ok
+test datafusion_planner::builder::expand_ops::tests::test_varlength_expand_default_max ... ok
+test datafusion_planner::builder::expand_ops::tests::test_varlength_expand_default_min ... ok
+test datafusion_planner::builder::expand_ops::tests::test_varlength_expand_exceeds_max ... ok
+test datafusion_planner::builder::expand_ops::tests::test_varlength_expand_invalid_range ... ok
+test datafusion_planner::builder::expand_ops::tests::test_varlength_expand_placeholder_builds ... ok
+test datafusion_planner::builder::expand_ops::tests::test_varlength_expand_single_hop ... ok
+test datafusion_planner::builder::expand_ops::tests::test_varlength_expand_with_filter ... ok
+test datafusion_planner::builder::expand_ops::tests::test_varlength_expand_with_union ... ok
+test datafusion_planner::builder::helpers::tests::test_collect_variables_includes_relationship_variables ... ok
+test datafusion_planner::builder::helpers::tests::test_extract_variables_deduplicates_and_sorts ... ok
+test datafusion_planner::builder::helpers::tests::test_extract_variables_handles_varlength_expand_without_relationship_var ... ok
+test datafusion_planner::builder::join_builder::tests::test_cross_join_builds ... ok
+test datafusion_planner::builder::join_builder::tests::test_inner_join_builds ... ok
+test datafusion_planner::builder::join_builder::tests::test_inner_join_with_shared_variable ... ok
+test datafusion_planner::builder::join_builder::tests::test_join_without_shared_variable_falls_back_to_cross_join ... ok
+test datafusion_planner::builder::join_builder::tests::test_left_join_without_shared_variables_errors ... ok
+test datafusion_planner::builder::join_builder::tests::test_relationship_variable_join_key_inference ... ok
+test datafusion_planner::builder::join_builder::tests::test_shared_relationship_variable_detected ... ok
+test datafusion_planner::builder::join_builder::tests::test_shared_relationship_variable_joins_on_its_endpoints ... ok
+test datafusion_planner::config_helpers::tests::test_get_catalog_missing ... ok
+test datafusion_planner::config_helpers::tests::test_get_catalog_success ... ok
+test datafusion_planner::config_helpers::tests::test_get_relationship_mapping_missing ... ok
+test datafusion_planner::config_helpers::tests::test_get_relationship_mapping_success ... ok
+test datafusion_planner::config_helpers::tests::test_get_target_node_mapping_infers_temp_variable ... ok
+test datafusion_planner::config_helpers::tests::test_get_target_node_mapping_invalid_temp_variable ... ok
+test datafusion_planner::config_helpers::tests::test_get_target_node_mapping_missing_config_entry ... ok
+test datafusion_planner::config_helpers::tests::test_get_target_node_mapping_missing_label ... ok
+test datafusion_planner::config_helpers::tests::test_get_target_node_mapping_with_existing_label ... ok
+test datafusion_planner::cypher_udf::tests::field_of_null_map_key_is_null ... ok
+test datafusion_planner::expression::tests::string_predicates_keep_literal_operands_and_column_identity ... ok
+test datafusion_planner::expression::tests::test_boolean_expr_and ... ok
+test datafusion_planner::expression::tests::test_boolean_expr_comparison_equal ... ok
+test datafusion_planner::expression::tests::test_boolean_expr_comparison_operators ... ok
+test datafusion_planner::expression::tests::test_boolean_expr_exists ... ok
+test datafusion_planner::expression::tests::test_boolean_expr_ilike ... ok
+test datafusion_planner::expression::tests::test_boolean_expr_in_list ... ok
+test datafusion_planner::expression::tests::test_boolean_expr_like ... ok
+test datafusion_planner::expression::tests::test_boolean_expr_like_vs_ilike_case_sensitivity ... ok
+test datafusion_planner::expression::tests::test_boolean_expr_like_with_wildcard ... ok
+test datafusion_planner::expression::tests::test_boolean_expr_not ... ok
+test datafusion_planner::expression::tests::test_boolean_expr_or ... ok
+test datafusion_planner::expression::tests::test_contains_aggregate_arithmetic_with_aggregate ... ok
+test datafusion_planner::expression::tests::test_contains_aggregate_arithmetic_without_aggregate ... ok
+test datafusion_planner::expression::tests::test_contains_aggregate_count ... ok
+test datafusion_planner::expression::tests::test_contains_aggregate_literal ... ok
+test datafusion_planner::expression::tests::test_contains_aggregate_max ... ok
+test datafusion_planner::expression::tests::test_contains_aggregate_min ... ok
+test datafusion_planner::expression::tests::test_contains_aggregate_nested_function ... ok
+test datafusion_planner::expression::tests::test_contains_aggregate_property ... ok
+test datafusion_planner::expression::tests::test_contains_aggregate_sum ... ok
+test datafusion_planner::expression::tests::test_cypher_column_name_arithmetic ... ok
+test datafusion_planner::expression::tests::test_cypher_column_name_function_count_property ... ok
+test datafusion_planner::expression::tests::test_cypher_column_name_function_count_star ... ok
+test datafusion_planner::expression::tests::test_cypher_column_name_function_sum ... ok
+test datafusion_planner::expression::tests::test_cypher_column_name_literal ... ok
+test datafusion_planner::expression::tests::test_cypher_column_name_property ... ok
+test datafusion_planner::expression::tests::test_tolower_with_contains_preserves_literal_text ... ok
+test datafusion_planner::expression::tests::test_value_expr_arithmetic_add ... ok
+test datafusion_planner::expression::tests::test_value_expr_arithmetic_operators ... ok
+test datafusion_planner::expression::tests::test_value_expr_function_avg ... ok
+test datafusion_planner::expression::tests::test_value_expr_function_count_property ... ok
+test datafusion_planner::expression::tests::test_value_expr_function_count_star ... ok
+test datafusion_planner::expression::tests::test_value_expr_function_lower_alias ... ok
+test datafusion_planner::expression::tests::test_value_expr_function_max ... ok
+test datafusion_planner::expression::tests::test_value_expr_function_min ... ok
+test datafusion_planner::expression::tests::test_value_expr_function_sum ... ok
+test datafusion_planner::expression::tests::test_value_expr_function_tolower ... ok
+test datafusion_planner::expression::tests::test_value_expr_function_toupper ... ok
+test datafusion_planner::expression::tests::test_value_expr_function_upper_alias ... ok
+test datafusion_planner::expression::tests::test_value_expr_literal_boolean ... ok
+test datafusion_planner::expression::tests::test_value_expr_literal_float ... ok
+test datafusion_planner::expression::tests::test_value_expr_literal_integer ... ok
+test datafusion_planner::expression::tests::test_value_expr_literal_null ... ok
+test datafusion_planner::expression::tests::test_value_expr_literal_string ... ok
+test datafusion_planner::expression::tests::test_value_expr_property ... ok
+test datafusion_planner::join_ops::tests::test_expand_uses_qualified_join_keys_with_type_alias ... ok
+test datafusion_planner::join_ops::tests::test_expand_uses_relationship_variable_for_alias ... ok
+test datafusion_planner::join_ops::tests::test_incoming_join_qualified_keys ... ok
+test datafusion_planner::join_ops::tests::test_undirected_join_qualified_keys ... ok
+test datafusion_planner::join_ops::tests::test_where_on_relationship_property_with_rel_var ... ok
+test datafusion_planner::join_ops::tests::test_where_rel_and_node_properties ... ok
+test datafusion_planner::list_folds::tests::list_predicates_use_three_valued_logic ... ok
+test datafusion_planner::math_functions::tests::cypher_math_rounding_and_overflow ... ok
+test datafusion_planner::math_functions::tests::cypher_math_validates_types_arity_and_nulls ... ok
+test datafusion_planner::scalar_functions::tests::cypher_entity_map_keys ... ok
+test datafusion_planner::scalar_functions::tests::cypher_scalar_list_operations ... ok
+test datafusion_planner::scalar_functions::tests::cypher_scalar_math_and_rounding ... ok
+test datafusion_planner::scalar_functions::tests::cypher_scalar_nulls_and_invalid_arguments ... ok
+test datafusion_planner::scalar_functions::tests::cypher_scalar_unicode_and_slicing ... ok
+test datafusion_planner::scalar_functions::tests::range_rejects_unsigned_overflow ... ok
+test datafusion_planner::scan_ops::tests::test_df_planner_inline_property_filter ... ok
+test datafusion_planner::scan_ops::tests::test_expand_with_missing_relationship ... ok
+test datafusion_planner::scan_ops::tests::test_mixed_case_physical_fields_and_inline_filter ... ok
+test datafusion_planner::scan_ops::tests::test_scan_aliasing_projects_variable_prefixed_columns ... ok
+test datafusion_planner::scan_ops::tests::test_scan_missing_node_label_with_catalog_fails_fast ... ok
+test datafusion_planner::scan_ops::tests::test_scan_without_catalog_uses_empty_source ... ok
+test datafusion_planner::scan_ops::tests::test_temp_variable_with_underscores_in_source ... ok
+test datafusion_planner::tests::test_exists_and_in_on_node_props_materialized ... ok
+test datafusion_planner::tests::test_exists_on_relationship_property_is_qualified ... ok
+test datafusion_planner::tests::test_filter_preserves_error_context ... ok
+test datafusion_planner::tests::test_in_list_on_relationship_property_is_qualified ... ok
+test datafusion_planner::udf::tests::test_vector_distance_array_vs_scalar ... ok
+test datafusion_planner::udf::tests::test_vector_distance_broadcast ... ok
+test datafusion_planner::udf::tests::test_vector_distance_cosine_udf ... ok
+test datafusion_planner::udf::tests::test_vector_distance_dot_product_with_scalar ... ok
+test datafusion_planner::udf::tests::test_vector_distance_l2_udf ... ok
+test datafusion_planner::udf::tests::test_vector_distance_scalar_vs_array ... ok
+test datafusion_planner::udf::tests::test_vector_distance_scalar_vs_scalar ... ok
+test datafusion_planner::udf::tests::test_vector_distance_wrong_arg_count ... ok
+test datafusion_planner::udf::tests::test_vector_similarity_array_vs_scalar ... ok
+test datafusion_planner::udf::tests::test_vector_similarity_cosine_udf ... ok
+test datafusion_planner::udf::tests::test_vector_similarity_scalar_vs_scalar ... ok
+test datafusion_planner::vector_ops::tests::test_compute_vector_distances_broadcast ... ok
+test datafusion_planner::vector_ops::tests::test_compute_vector_similarities_broadcast ... ok
+test datafusion_planner::vector_ops::tests::test_cosine_distance ... ok
+test datafusion_planner::vector_ops::tests::test_cosine_distance_orthogonal ... ok
+test datafusion_planner::vector_ops::tests::test_cosine_similarity ... ok
+test datafusion_planner::vector_ops::tests::test_dimension_mismatch ... ok
+test datafusion_planner::vector_ops::tests::test_dot_product ... ok
+test datafusion_planner::vector_ops::tests::test_extract_single_vector_from_scalar ... ok
+test datafusion_planner::vector_ops::tests::test_extract_single_vector_from_scalar_different_dimensions ... ok
+test datafusion_planner::vector_ops::tests::test_extract_vectors_from_fixed_size_list ... ok
+test datafusion_planner::vector_ops::tests::test_extract_vectors_from_list_array ... ok
+test datafusion_planner::vector_ops::tests::test_extract_vectors_rejects_invalid_type ... ok
+test datafusion_planner::vector_ops::tests::test_extract_vectors_rejects_null_in_fixed_size_list ... ok
+test datafusion_planner::vector_ops::tests::test_integer_list_vectors_and_scalar ... ok
+test datafusion_planner::vector_ops::tests::test_l2_distance ... ok
+test datafusion_planner::vector_ops::tests::test_l2_distance_identical ... ok
+test datafusion_planner::vector_ops::tests::test_vector_elements_must_be_non_null_numbers ... ok
+test engine::tests::checkout_latest_waits_for_an_in_flight_checkout ... ok
+test engine::tests::execution_deadline_stops_nested_loop_joins ... ok
+test engine::tests::explain_analyze_reports_operator_metrics ... ok
+test datafusion_planner::builder::count_ops::tests::optional_second_hop ... ok
+test engine::tests::load_only_csr_never_writes ... ok
+test engine::tests::plan_cache_reuses_bounds_and_resets_on_checkout_latest ... ok
+test engine::tests::persisted_csr_loads_and_catches_up ... ok
+test engine::tests::sql_parameters_bind_into_cached_templates ... ok
+test engine::tests::sql_graph_table_uses_csr_and_matches_cypher ... ok
+test engine::tests::target_partitions_survive_checkout_latest_without_changing_other_defaults ... ok
+test engine::tests::sql_scans_lance_lazily_and_rejects_writes ... ok
+test graph_export::tests::bad_inputs_are_errors ... ok
+test graph_export::tests::directed_export_matches_hand_built_csr ... ok
+test graph_export::tests::labels_get_separate_ranges_for_colliding_keys ... ok
+test exec_metrics::tests::counts_rows_and_excludes_input_time ... ok
+test graph_export::tests::lance_input_matches_arrow_and_follows_checkout_latest ... ok
+test graph_export::tests::undirected_export_is_symmetric_with_self_loops_once ... ok
+test graph_export::tests::write_node_column_merges_by_key_and_repins ... ok
+test graph_table::tests::double_quotes_name_identifiers ... ok
+test graph_table::tests::leaves_direct_calls_quotes_and_names_alone ... ok
+test graph_table::tests::rejects_malformed_clauses ... ok
+test graph_table::tests::rewrites_clause_to_cypher_call ... ok
+test graph_table::tests::rewrites_several_clauses ... ok
+test key_statistics::tests::scan_reports_distinct_counts_for_named_columns_only ... ok
+test lance_vector_search::tests::test_vector_search_basic ... ok
+test lance_vector_search::tests::test_vector_search_cosine ... ok
+test lance_vector_search::tests::test_vector_search_custom_distance_column ... ok
+test lance_vector_search::tests::test_vector_search_missing_column ... ok
+test lance_vector_search::tests::test_vector_search_missing_query ... ok
+test lance_vector_search::tests::test_vector_search_top_k_larger_than_data ... ok
+test lance_vector_search::tests::test_vector_search_with_distance ... ok
+test lance_vector_search::tests::test_vector_search_without_distance ... ok
+test logical_plan::tests::continued_path_bound_only_at_its_far_end_starts_there ... ok
+test logical_plan::tests::continued_path_starts_from_the_bound_end_with_smaller_fan_out ... ok
+test logical_plan::tests::return_alias_shadows_node_only_after_projection ... ok
+test logical_plan::tests::test_distinct_and_order_limit_wrapping ... ok
+test logical_plan::tests::test_fixed_length_variable_path_is_expand ... ok
+test logical_plan::tests::test_multi_label_node_is_a_union_of_its_labels ... ok
+test logical_plan::tests::test_multiple_match_clauses_cross_join ... ok
+test logical_plan::tests::test_multiple_node_patterns_join_in_match ... ok
+test logical_plan::tests::test_node_with_properties_logical_plan ... ok
+test logical_plan::tests::test_open_ended_and_partial_var_length_ranges ... ok
+test logical_plan::tests::test_order_skip_limit_wrapping ... ok
+test logical_plan::tests::test_relationship_properties_pushed_into_expand ... ok
+test logical_plan::tests::test_relationship_query_logical_plan_structure ... ok
+test logical_plan::tests::test_return_node_variable ... ok
+test logical_plan::tests::test_return_node_variable_no_label ... ok
+test logical_plan::tests::test_return_node_variable_with_alias ... ok
+test logical_plan::tests::test_return_unlabeled_node_asks_for_label ... ok
+test logical_plan::tests::test_same_type_hops_bind_distinct_relationships ... ok
+test logical_plan::tests::test_shared_variable_chained_paths_in_match ... ok
+test logical_plan::tests::test_simple_node_query_logical_plan ... ok
+test logical_plan::tests::test_skip_only_wrapping ... ok
+test logical_plan::tests::test_variable_length_path_logical_plan ... ok
+test logical_plan::tests::test_variable_only_node_default_label ... ok
+test logical_plan::tests::test_variable_reuse_across_patterns ... ok
+test logical_plan::tests::test_variable_reuse_with_conflicting_labels ... ok
+test logical_plan::tests::test_where_clause_logical_plan ... ok
+test logical_plan::tests::undirected_alternation_plans_one_inventory_without_a_path_variable ... ok
+test mapping::tests::graph_config_checks_columns_and_sets_properties ... ok
+test mapping::tests::open_reads_the_pinned_version ... ok
+test mapping::tests::reads_the_descriptor_and_round_trips ... ok
+test mapping::tests::relationships_without_keys_round_trip_and_build ... ok
+test mapping::tests::snapshot_reads_a_publication_manifest ... ok
+test mapping::tests::validate_rejects_structural_errors ... ok
+test namespace::tests::describe_table_rejects_missing_identifier ... ok
+test namespace::tests::describe_table_rejects_multi_component_identifier ... ok
+test namespace::tests::describe_table_returns_clean_location ... ok
+test parameter_substitution::tests::container_expressions_preserve_ids_and_nesting ... ok
+test parameter_substitution::tests::pagination_requires_nonnegative_integral_parameters ... ok
+test parser::tests::chained_with_stages_and_with_distinct ... ok
+test parser::tests::null_literal_any_case_but_not_a_name_prefix ... ok
+test parser::tests::optional_match_owns_its_where_and_inner_where_attaches_to_match ... ok
+test parser::tests::out_of_range_numbers_are_parse_errors_not_panics ... ok
+test parser::tests::pagination_accepts_parameters_without_losing_names ... ok
+test parser::tests::reduce_keeps_inputs_in_outer_scope_and_marks_local_properties ... ok
+test parser::tests::relationship_type_alternation ... ok
+test parser::tests::test_hybrid_query_with_vector_and_property_filters ... ok
+test parser::tests::test_integer_lists_preserve_precision ... ok
+test parser::tests::test_optional_trailing_semicolon ... ok
+test parser::tests::test_parse_contains ... ok
+test parser::tests::test_parse_contains_case_insensitive_keyword ... ok
+test parser::tests::test_parse_count_property ... ok
+test parser::tests::test_parse_count_star ... ok
+test parser::tests::test_parse_count_with_multiple_args ... ok
+test parser::tests::test_parse_ends_with ... ok
+test parser::tests::test_parse_ilike_pattern ... ok
+test parser::tests::test_parse_like_and_ilike_together ... ok
+test parser::tests::test_parse_like_in_complex_where ... ok
+test parser::tests::test_parse_like_pattern ... ok
+test parser::tests::test_parse_like_with_double_quotes ... ok
+test parser::tests::test_parse_multiple_parameters ... ok
+test parser::tests::test_parse_node_with_properties ... ok
+test parser::tests::test_parse_non_count_function_rejects_star ... ok
+test parser::tests::test_parse_parameter ... ok
+test parser::tests::test_parse_parameter_formats ... ok
+test parser::tests::test_parse_query_with_and_conditions ... ok
+test parser::tests::test_parse_query_with_in_clause ... ok
+test parser::tests::test_parse_query_with_is_not_null ... ok
+test parser::tests::test_parse_query_with_is_null ... ok
+test parser::tests::test_parse_query_with_limit ... ok
+test parser::tests::test_parse_query_with_single_quoted_literal ... ok
+test parser::tests::test_parse_query_with_skip ... ok
+test parser::tests::test_parse_query_with_skip_and_limit ... ok
+test parser::tests::test_parse_query_with_skip_and_order_by ... ok
+test parser::tests::test_parse_query_with_skip_order_by_and_limit ... ok
+test parser::tests::test_parse_query_with_where_clause ... ok
+test parser::tests::test_parse_simple_node_query ... ok
+test parser::tests::test_parse_simple_relationship_query ... ok
+test parser::tests::test_parse_starts_with ... ok
+test parser::tests::test_parse_string_operators_in_complex_where ... ok
+test parser::tests::test_parse_unwind_after_match ... ok
+test parser::tests::test_parse_unwind_simple ... ok
+test parser::tests::test_parse_variable_length_path ... ok
+test parser::tests::test_parse_vector_distance ... ok
+test parser::tests::test_parse_vector_literal ... ok
+test parser::tests::test_parse_vector_literal_scientific_notation ... ok
+test parser::tests::test_parse_vector_literal_with_negative_values ... ok
+test parser::tests::test_parse_vector_similarity ... ok
+test parser::tests::test_parser_rejects_distinct_on_scalar ... ok
+test parser::tests::test_semicolon_does_not_allow_multiple_statements ... ok
+test parser::tests::test_syntax_errors_report_where_parsing_stopped ... ok
+test parser::tests::test_vector_distance_metrics ... ok
+test parser::tests::test_vector_distance_with_literal ... ok
+test parser::tests::test_vector_search_in_order_by ... ok
+test parser::tests::unions_preserve_modes_and_quoted_keywords ... ok
+test parser::tests::write_clauses_are_unsupported_features ... ok
+test parser::tests::write_keywords_in_names_and_literals_stay_parse_errors ... ok
+test path_inventory::tests::duplicate_node_keys_do_not_choose_an_arbitrary_endpoint ... ok
+test path_match::tests::named_walk_keeps_edge_occurrences_and_never_reuses_one ... ok
+test graph_export::tests::optimize_datasets_compacts_cleans_up_and_repins ... ok
+test path_match::tests::shortest_values_preserve_parallel_edges_and_bounded_output ... ok
+test path_value::tests::branch_alignment_rejects_conflicting_entity_properties ... ok
+test path_value::tests::cross_label_shortest_paths_need_typed_identity ... ok
+test path_value::tests::direct_shortest_queries_keep_the_csr_route ... ok
+test pattern_alternatives::tests::alternation_pairs_types_with_their_endpoint_labels ... ok
+test pattern_alternatives::tests::missing_endpoints_and_variable_length_alternation_are_errors ... ok
+test pattern_alternatives::tests::multi_label_node_alone_is_a_union_of_scans ... ok
+test pattern_alternatives::tests::variable_length_alternation_unrolls_chaining_type_sequences ... ok
+test pattern_alternatives::tests::written_labels_restrict_the_branches ... ok
+test pattern_order::tests::closing_edges_and_unsupported_shapes ... ok
+test pattern_order::tests::disjunctions_imply_one_predicate_per_dropped_variable ... ok
+test pattern_order::tests::disjunctions_that_imply_nothing_new ... ok
+test pattern_order::tests::id_equality_beats_other_equality_and_patterns_restart_from_bound_nodes ... ok
+test pattern_order::tests::inline_properties_follow_their_node ... ok
+test pattern_order::tests::keeps_text_order_when_nothing_beats_the_first_node ... ok
+test pattern_order::tests::starts_at_the_filtered_end_and_reverses_segments ... ok
+test query::tests::cached_templates_rebind_scalars_and_preserve_schema ... ok
+test query::tests::cached_templates_respect_catalog_and_parameter_types ... ok
+test path_match::tests::rejected_hub_yields_before_scanning_all_edges ... ok
+test query::tests::cross_label_shortest_queries_bypass_cached_inventories ... ok
+test query::tests::executes_against_directory_namespace ... ok
+test query::tests::namespace_execution_opens_the_described_version ... ok
+test query::tests::parameterized_row_counts_bypass_templates ... ok
+test query::tests::profile_query_planning_stages ... ignored, local stage timing; run with --ignored --nocapture
+test query::tests::test_aggregate_predicates_on_empty_input ... ok
+test query::tests::test_execute_basic_projection_and_filter ... ok
+test query::tests::test_execute_datafusion_simple_scan ... ok
+test query::tests::test_execute_fails_on_semantic_error ... ok
+test query::tests::test_execute_order_by_asc ... ok
+test query::tests::test_execute_order_by_desc_with_skip_limit ... ok
+test query::tests::test_execute_single_hop_path_join_projection ... ok
+test query::tests::test_execute_skip_without_limit ... ok
+test query::tests::test_execute_with_context_order_by_limit ... ok
+test query::tests::cartesian_stream_yields_and_drops_before_full_collection ... ok
+test query::tests::test_execute_with_context_relationship_traversal ... ok
+test query::tests::test_execute_with_context_simple_scan ... ok
+test query::tests::test_parse_simple_cypher_query ... ok
+test query::tests::test_query_builder ... ok
+test query::tests::test_query_with_parameters ... ok
+test query::tests::test_relationship_query_parsing ... ok
+test query::tests::test_execute_with_context_with_filter ... ok
+test query::tests::test_to_sql ... ok
+test query::tests::test_to_sql_rejects_runtime_only_cypher_function ... ok
+test query::tests::union_distinct_all_and_schema_validation_execute ... ok
+test semantic::tests::test_arithmetic_with_defined_property_ok ... ok
+test semantic::tests::test_arithmetic_with_non_numeric_literal_error ... ok
+test semantic::tests::test_arithmetic_with_numeric_literals_ok ... ok
+test semantic::tests::test_arithmetic_with_undefined_variable_in_return ... ok
+test semantic::tests::test_avg_with_variable_fails_validation ... ok
+test semantic::tests::test_count_distinct_passes_validation ... ok
+test semantic::tests::test_count_distinct_star_rejected ... ok
+test semantic::tests::test_count_star_passes_validation ... ok
+test semantic::tests::test_count_with_multiple_args_fails_validation ... ok
+test semantic::tests::test_count_with_one_arg_passes_validation ... ok
+test semantic::tests::test_count_with_zero_args_fails_validation ... ok
+test semantic::tests::test_distinct_only_supported_on_count ... ok
+test semantic::tests::test_function_argument_undefined_variable_in_return ... ok
+test semantic::tests::test_function_argument_valid_variable_ok ... ok
+test semantic::tests::test_invalid_length_range_collects_error ... ok
+test semantic::tests::test_max_with_property_passes_validation ... ok
+test semantic::tests::test_max_with_variable_fails_validation ... ok
+test semantic::tests::test_merge_node_variable_metadata ... ok
+test semantic::tests::test_min_with_property_passes_validation ... ok
+test semantic::tests::test_min_with_variable_fails_validation ... ok
+test semantic::tests::test_parameter_substitution ... ok
+test semantic::tests::test_property_not_in_schema_reports_error ... ok
+test semantic::tests::test_relationship_variable_metadata_merge_across_segments ... ok
+test semantic::tests::test_sum_with_property_passes_validation ... ok
+test semantic::tests::test_sum_with_variable_fails_validation ... ok
+test semantic::tests::test_undefined_variable_in_where ... ok
+test semantic::tests::test_unimplemented_scalar_function_fails_validation ... ok
+test semantic::tests::test_unknown_node_label_warns ... ok
+test semantic::tests::test_valid_length_range_ok ... ok
+test semantic::tests::test_variable_redefinition_between_node_and_relationship ... ok
+test semantic::tests::test_vector_distance_all_metrics ... ok
+test semantic::tests::test_vector_distance_with_property ... ok
+test semantic::tests::test_vector_distance_without_property_fails ... ok
+test semantic::tests::test_vector_similarity_one_literal_ok ... ok
+test semantic::tests::test_vector_similarity_with_property ... ok
+test semantic::tests::union_branches_do_not_inherit_variables ... ok
+test semantic::types::tests::preserves_coercions_nulls_and_unknown_types ... ok
+test semantic::types::tests::rejects_known_operand_types_in_their_scope ... ok
+test semantic::types::tests::scalar_return_types_follow_with_and_unwind_scopes ... ok
+test query::tests::test_to_sql_preserves_constant_null_types ... ok
+test shortest_path::tests::batched_search_yields_within_a_wide_level ... ok
+test shortest_path::tests::batched_search_matches_one_search_per_source ... ok
+test shortest_path::tests::bidirectional_keeps_every_meeting_node_and_parallel_edge ... ok
+test shortest_path::tests::bidirectional_avoids_expanding_the_wide_middle_layer ... ok
+test shortest_path::tests::bidirectional_matches_forward_search_for_small_graphs ... ok
+test shortest_path::tests::finds_every_shortest_path_and_only_shortest_ones ... ok
+test shortest_path::tests::sources_beyond_one_batch_of_lanes_keep_their_own_paths ... ok
+test spark_dialect::tests::test_spark_dialect_character_length_style ... ok
+test spark_dialect::tests::test_spark_dialect_extract_style ... ok
+test spark_dialect::tests::test_spark_dialect_identifier_quoting ... ok
+test spark_dialect::tests::test_spark_dialect_requires_derived_table_alias ... ok
+test spark_dialect::tests::test_spark_dialect_type_mappings ... ok
+test sql_query::tests::test_aggregation ... ok
+test sql_query::tests::test_basic_select ... ok
+test sql_query::tests::test_execute_with_context ... ok
+test shortest_path::tests::cancellation_without_edges_yields_while_scanning_frontier ... ok
+test sql_query::tests::test_explain ... ok
+test sql_query::tests::test_invalid_sql ... ok
+test sql_query::tests::test_limit ... ok
+test sql_query::tests::test_select_star ... ok
+test sql_query::tests::test_sql_text_accessor ... ok
+test sql_query::tests::test_group_by ... ok
+test datafusion_planner::builder::count_ops::tests::undirected_hops ... ok
+test datafusion_planner::builder::count_ops::tests::grouped_two_hop_weights_match_enumeration ... ok
+
+test result: ok. 476 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 12.24s
+
+     Running tests/test_case_insensitivity.rs (bench/lance-csr/target/debug/deps/test_case_insensitivity-4d66c5d08fb508bd)
+
+running 4 tests
+test test_complex_mixed_case_query ... ok
+test test_identifiers_case_insensitive ... ok
+test test_relationships_case_insensitive ... ok
+test test_clauses_case_insensitive ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+     Running tests/test_complex_return_clauses.rs (bench/lance-csr/target/debug/deps/test_complex_return_clauses-a31bf1f77803ebba)
+
+running 3 tests
+test test_return_node_variable_expands_properties ... ok
+test test_return_node_variable_expands_properties_with_order_by ... ok
+test test_return_node_variable_expands_properties_with_distinct ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/test_datafusion_pipeline.rs (bench/lance-csr/target/debug/deps/test_datafusion_pipeline-bac644b33038f905)
+
+running 126 tests
+test test_avg_without_alias_has_descriptive_name ... ok
+test test_avg_property ... ok
+test test_avg_with_filter ... ok
+test test_avg_with_grouping ... ok
+test test_collect_property ... ok
+test test_collect_with_null_values ... ok
+test test_count_distinct_star_rejected ... ok
+test test_collect_with_grouping ... ok
+test test_count_property ... ok
+test test_count_distinct_basic ... ok
+test test_count_star_all_nodes ... ok
+test test_count_property_without_alias_has_descriptive_name ... ok
+test test_count_variable ... ok
+test test_count_distinct_with_grouping ... ok
+test test_count_unwind_variable ... ok
+test test_count_with_filter ... ok
+test test_count_without_alias_has_descriptive_name ... ok
+test test_count_with_grouping ... ok
+test test_datafusion_all_columns_projection ... ok
+test test_datafusion_contains_basic ... ok
+test test_datafusion_complex_filtering ... ok
+test test_datafusion_contains_case_sensitive ... ok
+test test_count_vs_count_distinct ... ok
+test test_datafusion_complex_boolean_expression ... ok
+test test_datafusion_disconnected_patterns_cross_join ... ok
+test test_datafusion_contains_in_relationship_query ... ok
+test test_datafusion_disconnected_patterns_multiple_results ... ok
+test test_datafusion_empty_result_set ... ok
+test test_datafusion_error_handling_empty_datasets ... ok
+test test_datafusion_error_handling_missing_config ... ok
+test test_datafusion_ends_with_basic ... ok
+test test_datafusion_disconnected_with_distinct ... ok
+test test_datafusion_is_not_null_node_property ... ok
+test test_datafusion_distinct_with_two_hop ... ok
+test test_datafusion_is_not_null_relationship_property ... ok
+test test_datafusion_expand_with_both_relationship_and_target_filters ... ok
+test test_datafusion_filter_on_both_nodes_and_edges ... ok
+test test_datafusion_is_null_node_property ... ok
+test test_datafusion_like_case_sensitive ... ok
+test test_datafusion_like_contains_match ... ok
+test test_datafusion_like_with_and_condition ... ok
+test test_datafusion_is_null_relationship_property ... ok
+test test_datafusion_multiple_conditions ... ok
+test test_datafusion_like_in_relationship_query ... ok
+test test_datafusion_node_filtering ... ok
+test test_datafusion_mixed_connected_and_disconnected ... ok
+test test_datafusion_one_hop_filtered_source_age_strict ... ok
+test test_datafusion_one_hop_multiple_properties ... ok
+test test_datafusion_one_hop_return_relationship_properties ... ok
+test test_datafusion_multiple_shared_variables ... ok
+test test_datafusion_order_by_multiple_columns ... ok
+test test_datafusion_one_hop_source_names_strict ... ok
+test test_datafusion_order_by_single_column_asc ... ok
+test test_datafusion_order_by_single_column_desc ... ok
+test test_datafusion_one_hop_with_city_filter ... ok
+test test_datafusion_order_by_relationship_query ... ok
+test test_datafusion_order_by_with_filter ... ok
+test test_datafusion_order_by_with_limit ... ok
+test test_datafusion_parameter_filtering_age ... ok
+test test_datafusion_performance_large_dataset ... ok
+test test_datafusion_projection_multiple_properties ... ok
+test test_datafusion_order_by_two_hop_query ... ok
+test test_datafusion_order_by_with_distinct ... ok
+test test_datafusion_relationship_count ... ok
+test test_datafusion_relationship_traversal ... ok
+test test_datafusion_relationship_with_variable ... ok
+test test_datafusion_return_alias_with_order_by ... ok
+test test_datafusion_return_mixed_with_and_without_alias ... ok
+test test_datafusion_return_with_multiple_aliases ... ok
+test test_datafusion_return_with_single_alias ... ok
+test test_datafusion_return_alias_with_relationship ... ok
+test test_datafusion_relationship_variable_reuse_binds_the_same_edge ... ok
+test test_datafusion_simple_node_scan ... ok
+test test_datafusion_shared_node_variable_join ... ok
+test test_datafusion_starts_with_basic ... ok
+test test_datafusion_string_operators_combined ... ok
+test test_datafusion_shared_variable_with_filter ... ok
+test test_datafusion_shared_variable_distinct ... ok
+test test_datafusion_two_hop_basic ... ok
+test test_datafusion_two_hop_count_paths_per_source ... ok
+test test_datafusion_two_hop_no_results ... ok
+test test_datafusion_two_hop_distinct ... ok
+test test_datafusion_two_hop_return_all_three ... ok
+test test_datafusion_two_hop_return_intermediate ... ok
+test test_datafusion_two_hop_return_both_relationship_properties ... ok
+test test_datafusion_two_hop_return_relationship_properties ... ok
+test test_datafusion_two_hop_same_intermediate_node ... ok
+test test_datafusion_two_hop_with_filter ... ok
+test test_datafusion_two_hop_with_limit ... ok
+test test_datafusion_two_hop_with_relationship_variable ... ok
+test test_datafusion_two_hop_with_multiple_filters ... ok
+test test_datafusion_variable_reuse_triangle_pattern ... ok
+test test_datafusion_variable_reuse_with_count_distinct ... ok
+test test_datafusion_varlength_count ... ok
+test test_datafusion_variable_reuse_multi_pattern_optimization ... ok
+test test_datafusion_varlength_no_results ... ok
+test test_datafusion_varlength_one_to_two_hops ... ok
+test test_datafusion_varlength_return_source_and_target ... ok
+test test_datafusion_varlength_single_hop ... ok
+test test_datafusion_varlength_projection_correctness ... ok
+test test_datafusion_varlength_two_hops ... ok
+test test_datafusion_varlength_three_hops ... ok
+test test_datafusion_varlength_with_filter ... ok
+test test_datafusion_varlength_with_distinct ... ok
+test test_datafusion_varlength_with_limit ... ok
+test test_max_property ... ok
+test test_min_property ... ok
+test test_datafusion_varlength_with_order_by ... ok
+test test_sum_property ... ok
+test test_min_max_with_grouping ... ok
+test test_sum_with_filter ... ok
+test test_datafusion_varlength_with_source_filter ... ok
+test test_sum_without_alias_has_descriptive_name ... ok
+test test_sum_with_grouping ... ok
+test test_tolower_in_return_clause ... ok
+test test_unimplemented_scalar_function_errors ... ok
+test test_tolower_with_contains ... ok
+test test_tolower_with_integer_column_in_return ... ok
+test test_toupper_with_contains ... ok
+test test_unwind_after_match ... ok
+test test_unwind_simple_list ... ok
+test test_unwind_then_match ... ok
+test test_with_order_by_limit_and_where ... ok
+test test_with_aggregation ... ok
+test test_with_simple_projection ... ok
+test test_with_post_match_chaining ... ok
+
+test result: ok. 126 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.33s
+
+     Running tests/test_datafusion_scenarios.rs (bench/lance-csr/target/debug/deps/test_datafusion_scenarios-23da780d7b836f89)
+
+running 17 tests
+test test_animals_filter_skip_limit ... ok
+test test_books_relationship_filter ... ok
+test test_books_shared_author_join ... ok
+test test_disconnected_animals_cross_join ... ok
+test test_disconnected_animals_species_filter ... ok
+test test_disconnected_planets_discovery_comparison ... ok
+test test_airports_variable_length_distinct ... ok
+test test_courses_incoming_edges_with_distinct ... ok
+test test_disconnected_with_aggregation ... ok
+test test_engineers_shared_team_join ... ok
+test test_distinct_composite_keys ... ok
+test test_engineers_two_hop_path_with_filter ... ok
+test test_languages_undirected_relationships ... ok
+test test_planets_complex_boolean_expression ... ok
+test test_museums_order_by_limit ... ok
+test test_suppliers_relationship_ordering ... ok
+test test_projects_active_milestones ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+     Running tests/test_datafusion_varlength_complex.rs (bench/lance-csr/target/debug/deps/test_datafusion_varlength_complex-a8a5933d07dc31ff)
+
+running 19 tests
+test test_varlength_age_filter ... ok
+test test_varlength_age_range ... ok
+test test_varlength_combined_filters ... ok
+test test_varlength_convergence_to_hub ... ok
+test test_varlength_diamond_pattern ... ok
+test test_varlength_all_pairs_reachability ... ok
+test test_varlength_divergence_from_source ... ok
+test test_varlength_distinct_reduces_duplicates ... ok
+test test_varlength_cross_department_connections ... ok
+test test_varlength_count_paths_vs_endpoints ... ok
+test test_varlength_reachability_analysis ... ok
+test test_varlength_increasing_reach ... ok
+test test_varlength_multiple_paths_to_target ... ok
+test test_varlength_shortest_path_length ... ok
+test test_varlength_same_department ... ok
+test test_varlength_with_cycle ... ok
+test test_varlength_with_and_without_distinct ... ok
+test test_varlength_with_limit_and_order ... ok
+test test_varlength_large_hop_count ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.35s
+
+     Running tests/test_datafusion_vector_search.rs (bench/lance-csr/target/debug/deps/test_datafusion_vector_search-f91a9d7018875c6f)
+
+running 21 tests
+test test_hybrid_query_with_vector_literal ... ok
+test test_vector_distance_between_different_people ... ok
+test test_hybrid_query_property_and_vector ... ok
+test test_vector_distance_cosine ... ok
+test test_vector_distance_dot_product ... ok
+test test_multiple_vector_comparisons ... ok
+test test_vector_distance_l2 ... ok
+test test_vector_distance_l2_with_literal ... ok
+test test_vector_distance_order_by_with_literal ... ok
+test test_vector_distance_l2_simple ... ok
+test test_vector_distance_self_comparison ... ok
+test test_vector_distance_order_by ... ok
+test test_vector_distance_where_no_cross_product ... ok
+test test_vector_literal_in_return_clause ... ok
+test test_vector_search_with_aggregation ... ok
+test test_vector_search_with_limit ... ok
+test test_vector_similarity_cosine ... ok
+test test_vector_similarity_dot_product ... ok
+test test_vector_similarity_self_comparison ... ok
+test test_vector_similarity_l2_conversion ... ok
+test test_vector_similarity_order_by ... ok
+
+test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests/test_datafusion_with_context.rs (bench/lance-csr/target/debug/deps/test_datafusion_with_context-6ece717fe1e8a7c6)
+
+running 4 tests
+test test_execute_with_context_missing_table ... ok
+test test_execute_with_context_aliases ... ok
+test test_execute_with_context_complex_query ... ok
+test test_execute_with_context_csv_simple ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests/test_engine.rs (bench/lance-csr/target/debug/deps/test_engine-2483f185a99ad2d2)
+
+running 11 tests
+test construction_errors_are_config_errors ... ok
+test named_path_endpoint_labels_ignore_case ... ok
+test arrow_input_with_csr ... ok
+test optimize_csr_folds_the_delta_into_the_base ... ok
+test parameterized_key_map_with_declared_property_projection ... ok
+test parameters_and_streaming ... ok
+test lance_input_is_pinned_until_checkout_latest ... ok
+test optional_match_where_pattern_reads_an_earlier_variable ... ok
+test string_predicate_parameters_preserve_literals_nulls_and_cached_values ... ok
+test anonymous_patterns_keep_mixed_label_identity_and_query_semantics ... ok
+test path_exists_matches_the_join_plan ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.29s
+
+     Running tests/test_explain_output.rs (bench/lance-csr/target/debug/deps/test_explain_output-1e09a5ad1f2e8c88)
+
+running 8 tests
+test test_explain_complex_filter ... ok
+test test_explain_distinct ... ok
+test test_explain_multi_relationship_types ... ok
+test test_explain_one_hop_relationship ... ok
+test test_explain_simple_node_scan ... ok
+test test_explain_with_skip_and_limit ... ok
+test test_explain_relationship_properties ... ok
+test test_explain_two_hop_path ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/test_lance_vector_search.rs (bench/lance-csr/target/debug/deps/test_lance_vector_search-9a65645ba3c8426d)
+
+running 7 tests
+test test_execute_with_vector_rerank_basic ... ok
+test test_execute_with_vector_rerank_empty_result ... ok
+test test_execute_with_vector_rerank_filtered ... ok
+test test_execute_with_vector_rerank_preserves_columns ... ok
+test test_execute_with_vector_rerank_different_metrics ... ok
+test test_execute_with_vector_rerank_with_distance ... ok
+test test_graphrag_workflow_cypher_filter_then_vector_rerank ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/test_quoted_identifiers.rs (bench/lance-csr/target/debug/deps/test_quoted_identifiers-96aae6c9a273be20)
+
+running 1 test
+test backtick_quoted_identifiers ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+     Running tests/test_sql_query.rs (bench/lance-csr/target/debug/deps/test_sql_query-1aa2ed2ee8b11b8a)
+
+running 14 tests
+test test_count ... ok
+test test_avg ... ok
+test test_case_insensitive_table_names ... ok
+test test_execute_with_session_context ... ok
+test test_invalid_sql ... ok
+test test_missing_table ... ok
+test test_explain_output ... ok
+test test_inner_join ... ok
+test test_select_limit ... ok
+test test_select_star ... ok
+test test_select_with_where_order_by_limit ... ok
+test test_group_by_with_count ... ok
+test test_sum ... ok
+test test_self_join_friends ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/test_to_spark_sql.rs (bench/lance-csr/target/debug/deps/test_to_spark_sql-4de5e8ecade2368e)
+
+running 7 tests
+test test_to_sql_postgresql_dialect ... ok
+test test_to_sql_default_dialect_no_backticks ... ok
+test test_to_sql_spark_simple_node_scan ... ok
+test test_to_sql_spark_complex_query ... ok
+test test_spark_sql_differs_from_default_sql ... ok
+test test_to_sql_spark_with_filter ... ok
+test test_to_sql_spark_with_relationship ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/test_to_sql.rs (bench/lance-csr/target/debug/deps/test_to_sql-920240fa2ca5661b)
+
+running 12 tests
+test test_to_sql_missing_config ... ok
+test test_to_sql_empty_datasets ... ok
+test test_to_sql_with_alias ... ok
+test test_to_sql_simple_node_scan ... ok
+test test_to_sql_with_distinct ... ok
+test test_to_sql_with_limit ... ok
+test test_to_sql_with_multiple_properties ... ok
+test test_to_sql_with_filter ... ok
+test test_to_sql_with_order_by ... ok
+test test_to_sql_complex_query ... ok
+test test_to_sql_with_relationship ... ok
+test test_to_sql_with_relationship_filter ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+   Doc-tests lance_csr
+
+running 17 tests
+test crates/lance-csr/src/engine.rs - engine (line 11) - compile ... ok
+test crates/lance-csr/src/lance_vector_search.rs - lance_vector_search (line 18) ... ignored
+test crates/lance-csr/src/lance_vector_search.rs - lance_vector_search::VectorSearch::new (line 69) ... ignored
+test crates/lance-csr/src/lance_vector_search.rs - lance_vector_search::VectorSearch::search (line 162) ... ignored
+test crates/lance-csr/src/lance_vector_search.rs - lance_vector_search::VectorSearch::search_lance (line 213) ... ignored
+test crates/lance-csr/src/lib.rs - (line 25) - compile ... ok
+test crates/lance-csr/src/mapping.rs - mapping (line 24) - compile ... ok
+test crates/lance-csr/src/query.rs - query::CypherQuery::execute (line 473) ... ignored
+test crates/lance-csr/src/query.rs - query::CypherQuery::execute_with_catalog_and_context (line 835) ... ignored
+test crates/lance-csr/src/query.rs - query::CypherQuery::execute_with_context (line 740) ... ignored
+test crates/lance-csr/src/query.rs - query::CypherQuery::execute_with_vector_rerank (line 1523) ... ignored
+test crates/lance-csr/src/query.rs - query::CypherQuery::explain (line 568) ... ignored
+test crates/lance-csr/src/query/deadline.rs - query::deadline::with_execution_deadline (line 44) - compile ... ok
+test crates/lance-csr/src/sql_query.rs - sql_query::SqlQuery (line 25) - compile ... ok
+test crates/lance-csr/src/case_insensitive.rs - case_insensitive::qualify_column (line 99) ... ok
+test crates/lance-csr/src/case_insensitive.rs - case_insensitive::CaseInsensitiveStr (line 19) ... ok
+test crates/lance-csr/src/case_insensitive.rs - case_insensitive::CaseInsensitiveLookup (line 132) ... ok
+
+test result: ok. 8 passed; 0 failed; 9 ignored; 0 measured; 0 filtered out; finished in 2.22s
+

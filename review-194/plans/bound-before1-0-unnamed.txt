@@ -1,0 +1,98 @@
+Cypher Query:
+  MATCH (s:Y {id:1}) MATCH (s:Y)-[:A|B*1..2]-(q:Y) RETURN q.id
+
++--------------------+---------------------------------------------------------------------------+
+| plan_type          | plan                                                                      |
++--------------------+---------------------------------------------------------------------------+
+| graph_logical_plan | Project {                                                                 |
+|                    |     input: PathMatch {                                                    |
+|                    |         input: ScanByLabel {                                              |
+|                    |             variable: "s",                                                |
+|                    |             label: "Y",                                                   |
+|                    |             properties: {                                                 |
+|                    |                 "id": Integer(                                            |
+|                    |                     1,                                                    |
+|                    |                 ),                                                        |
+|                    |             },                                                            |
+|                    |         },                                                                |
+|                    |         path: PathPattern {                                               |
+|                    |             variable: None,                                               |
+|                    |             start_node: NodePattern {                                     |
+|                    |                 variable: Some(                                           |
+|                    |                     "s",                                                  |
+|                    |                 ),                                                        |
+|                    |                 labels: [                                                 |
+|                    |                     "Y",                                                  |
+|                    |                 ],                                                        |
+|                    |                 properties: {},                                           |
+|                    |             },                                                            |
+|                    |             segments: [                                                   |
+|                    |                 PathSegment {                                             |
+|                    |                     relationship: RelationshipPattern {                   |
+|                    |                         variable: None,                                   |
+|                    |                         types: [                                          |
+|                    |                             "A",                                          |
+|                    |                             "B",                                          |
+|                    |                         ],                                                |
+|                    |                         direction: Undirected,                            |
+|                    |                         properties: {},                                   |
+|                    |                         length: Some(                                     |
+|                    |                             LengthRange {                                 |
+|                    |                                 min: Some(                                |
+|                    |                                     1,                                    |
+|                    |                                 ),                                        |
+|                    |                                 max: Some(                                |
+|                    |                                     2,                                    |
+|                    |                                 ),                                        |
+|                    |                             },                                            |
+|                    |                         ),                                                |
+|                    |                     },                                                    |
+|                    |                     end_node: NodePattern {                               |
+|                    |                         variable: Some(                                   |
+|                    |                             "q",                                          |
+|                    |                         ),                                                |
+|                    |                         labels: [                                         |
+|                    |                             "Y",                                          |
+|                    |                         ],                                                |
+|                    |                         properties: {},                                   |
+|                    |                     },                                                    |
+|                    |                 },                                                        |
+|                    |             ],                                                            |
+|                    |             shortest: None,                                               |
+|                    |         },                                                                |
+|                    |         node_values: false,                                               |
+|                    |     },                                                                    |
+|                    |     projections: [                                                        |
+|                    |         ProjectionItem {                                                  |
+|                    |             expression: Property(                                         |
+|                    |                 PropertyRef {                                             |
+|                    |                     variable: "q",                                        |
+|                    |                     property: "id",                                       |
+|                    |                 },                                                        |
+|                    |             ),                                                            |
+|                    |             alias: None,                                                  |
+|                    |         },                                                                |
+|                    |     ],                                                                    |
+|                    | }                                                                         |
+| logical_plan       | Projection: q__id AS q.id                                                 |
+|                    |   PathMatch: endpoints, trail edge inventory                              |
+|                    |     Projection: y.id AS s__id                                             |
+|                    |       Filter: y.id = Int64(1)                                             |
+|                    |         TableScan: y                                                      |
+|                    |     TableScan: y                                                          |
+|                    |     TableScan: a                                                          |
+|                    |     TableScan: b                                                          |
+| physical_plan      | ProjectionExec: expr=[q__id@1 as q.id]                                    |
+|                    |   PathMatchExec: endpoints edge inventory                                 |
+|                    |     RepartitionExec: partitioning=RoundRobinBatch(18), input_partitions=1 |
+|                    |       ProjectionExec: expr=[id@0 as s__id]                                |
+|                    |         FilterExec: id@0 = 1                                              |
+|                    |           KeyStatisticsExec: distinct=[id=3]                              |
+|                    |             DataSourceExec: partitions=1, partition_sizes=[1]             |
+|                    |     KeyStatisticsExec: distinct=[id=3]                                    |
+|                    |       DataSourceExec: partitions=1, partition_sizes=[1]                   |
+|                    |     KeyStatisticsExec: distinct=[dst=1, src=1]                            |
+|                    |       DataSourceExec: partitions=1, partition_sizes=[1]                   |
+|                    |     KeyStatisticsExec: distinct=[dst=1, src=1]                            |
+|                    |       DataSourceExec: partitions=1, partition_sizes=[1]                   |
++--------------------+---------------------------------------------------------------------------+

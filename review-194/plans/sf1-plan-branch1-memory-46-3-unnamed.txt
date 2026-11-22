@@ -1,0 +1,167 @@
+Cypher Query:
+  MATCH (s:Tagclass {id: 46}) OPTIONAL MATCH (s)-[:hasType|isSubclassOf*1..3]-(q:Tag) RETURN DISTINCT q.id AS id ORDER BY id
+
++--------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| plan_type          | plan                                                                                                                                                                  |
++--------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| graph_logical_plan | Sort {                                                                                                                                                                |
+|                    |     input: Distinct {                                                                                                                                                 |
+|                    |         input: Project {                                                                                                                                              |
+|                    |             input: OptionalMatch {                                                                                                                                    |
+|                    |                 input: ScanByLabel {                                                                                                                                  |
+|                    |                     variable: "s",                                                                                                                                    |
+|                    |                     label: "Tagclass",                                                                                                                                |
+|                    |                     properties: {                                                                                                                                     |
+|                    |                         "id": Integer(                                                                                                                                |
+|                    |                             46,                                                                                                                                       |
+|                    |                         ),                                                                                                                                            |
+|                    |                     },                                                                                                                                                |
+|                    |                 },                                                                                                                                                    |
+|                    |                 optional: PathMatch {                                                                                                                                 |
+|                    |                     input: Distinct {                                                                                                                                 |
+|                    |                         input: Project {                                                                                                                              |
+|                    |                             input: ScanByLabel {                                                                                                                      |
+|                    |                                 variable: "s",                                                                                                                        |
+|                    |                                 label: "Tagclass",                                                                                                                    |
+|                    |                                 properties: {                                                                                                                         |
+|                    |                                     "id": Integer(                                                                                                                    |
+|                    |                                         46,                                                                                                                           |
+|                    |                                     ),                                                                                                                                |
+|                    |                                 },                                                                                                                                    |
+|                    |                             },                                                                                                                                        |
+|                    |                             projections: [                                                                                                                            |
+|                    |                                 ProjectionItem {                                                                                                                      |
+|                    |                                     expression: Variable(                                                                                                             |
+|                    |                                         "s",                                                                                                                          |
+|                    |                                     ),                                                                                                                                |
+|                    |                                     alias: None,                                                                                                                      |
+|                    |                                 },                                                                                                                                    |
+|                    |                             ],                                                                                                                                        |
+|                    |                         },                                                                                                                                            |
+|                    |                     },                                                                                                                                                |
+|                    |                     path: PathPattern {                                                                                                                               |
+|                    |                         variable: None,                                                                                                                               |
+|                    |                         start_node: NodePattern {                                                                                                                     |
+|                    |                             variable: Some(                                                                                                                           |
+|                    |                                 "s",                                                                                                                                  |
+|                    |                             ),                                                                                                                                        |
+|                    |                             labels: [],                                                                                                                               |
+|                    |                             properties: {},                                                                                                                           |
+|                    |                         },                                                                                                                                            |
+|                    |                         segments: [                                                                                                                                   |
+|                    |                             PathSegment {                                                                                                                             |
+|                    |                                 relationship: RelationshipPattern {                                                                                                   |
+|                    |                                     variable: None,                                                                                                                   |
+|                    |                                     types: [                                                                                                                          |
+|                    |                                         "hasType",                                                                                                                    |
+|                    |                                         "isSubclassOf",                                                                                                               |
+|                    |                                     ],                                                                                                                                |
+|                    |                                     direction: Undirected,                                                                                                            |
+|                    |                                     properties: {},                                                                                                                   |
+|                    |                                     length: Some(                                                                                                                     |
+|                    |                                         LengthRange {                                                                                                                 |
+|                    |                                             min: Some(                                                                                                                |
+|                    |                                                 1,                                                                                                                    |
+|                    |                                             ),                                                                                                                        |
+|                    |                                             max: Some(                                                                                                                |
+|                    |                                                 3,                                                                                                                    |
+|                    |                                             ),                                                                                                                        |
+|                    |                                         },                                                                                                                            |
+|                    |                                     ),                                                                                                                                |
+|                    |                                 },                                                                                                                                    |
+|                    |                                 end_node: NodePattern {                                                                                                               |
+|                    |                                     variable: Some(                                                                                                                   |
+|                    |                                         "q",                                                                                                                          |
+|                    |                                     ),                                                                                                                                |
+|                    |                                     labels: [                                                                                                                         |
+|                    |                                         "Tag",                                                                                                                        |
+|                    |                                     ],                                                                                                                                |
+|                    |                                     properties: {},                                                                                                                   |
+|                    |                                 },                                                                                                                                    |
+|                    |                             },                                                                                                                                        |
+|                    |                         ],                                                                                                                                            |
+|                    |                         shortest: None,                                                                                                                               |
+|                    |                     },                                                                                                                                                |
+|                    |                     node_values: false,                                                                                                                               |
+|                    |                 },                                                                                                                                                    |
+|                    |                 keys: [                                                                                                                                               |
+|                    |                     "s__id",                                                                                                                                          |
+|                    |                 ],                                                                                                                                                    |
+|                    |             },                                                                                                                                                        |
+|                    |             projections: [                                                                                                                                            |
+|                    |                 ProjectionItem {                                                                                                                                      |
+|                    |                     expression: Property(                                                                                                                             |
+|                    |                         PropertyRef {                                                                                                                                 |
+|                    |                             variable: "q",                                                                                                                            |
+|                    |                             property: "id",                                                                                                                           |
+|                    |                         },                                                                                                                                            |
+|                    |                     ),                                                                                                                                                |
+|                    |                     alias: Some(                                                                                                                                      |
+|                    |                         "id",                                                                                                                                         |
+|                    |                     ),                                                                                                                                                |
+|                    |                 },                                                                                                                                                    |
+|                    |             ],                                                                                                                                                        |
+|                    |         },                                                                                                                                                            |
+|                    |     },                                                                                                                                                                |
+|                    |     sort_items: [                                                                                                                                                     |
+|                    |         SortItem {                                                                                                                                                    |
+|                    |             expression: Variable(                                                                                                                                     |
+|                    |                 "id",                                                                                                                                                 |
+|                    |             ),                                                                                                                                                        |
+|                    |             direction: Ascending,                                                                                                                                     |
+|                    |         },                                                                                                                                                            |
+|                    |     ],                                                                                                                                                                |
+|                    | }                                                                                                                                                                     |
+| logical_plan       | Sort: id ASC NULLS LAST                                                                                                                                               |
+|                    |   Distinct:                                                                                                                                                           |
+|                    |     Projection: q__id AS id                                                                                                                                           |
+|                    |       Projection: s__id, s__name, s__url, q__id, q__name, q__url                                                                                                      |
+|                    |         Left Join: s__id = __optional__s__id                                                                                                                          |
+|                    |           Projection: tagclass.id AS s__id, tagclass.name AS s__name, tagclass.url AS s__url                                                                          |
+|                    |             Filter: tagclass.id = Int64(46)                                                                                                                           |
+|                    |               TableScan: tagclass                                                                                                                                     |
+|                    |           Projection: s__id AS __optional__s__id, s__name AS __optional__s__name, s__url AS __optional__s__url, q__id AS q__id, q__name AS q__name, q__url AS q__url  |
+|                    |             PathMatch: endpoints, trail edge inventory                                                                                                                |
+|                    |               Distinct:                                                                                                                                               |
+|                    |                 Projection: s__id AS s__id, s__name AS s__name, s__url AS s__url                                                                                      |
+|                    |                   Projection: tagclass.id AS s__id, tagclass.name AS s__name, tagclass.url AS s__url                                                                  |
+|                    |                     Filter: tagclass.id = Int64(46)                                                                                                                   |
+|                    |                       TableScan: tagclass                                                                                                                             |
+|                    |               TableScan: tag                                                                                                                                          |
+|                    |               TableScan: tagclass                                                                                                                                     |
+|                    |               TableScan: hastype                                                                                                                                      |
+|                    |               TableScan: issubclassof                                                                                                                                 |
+| physical_plan      | SortPreservingMergeExec: [id@0 ASC NULLS LAST]                                                                                                                        |
+|                    |   SortExec: expr=[id@0 ASC NULLS LAST], preserve_partitioning=[true]                                                                                                  |
+|                    |     AggregateExec: mode=FinalPartitioned, gby=[id@0 as id], aggr=[]                                                                                                   |
+|                    |       RepartitionExec: partitioning=Hash([id@0], 18), input_partitions=18                                                                                             |
+|                    |         AggregateExec: mode=Partial, gby=[id@0 as id], aggr=[]                                                                                                        |
+|                    |           ProjectionExec: expr=[q__id@0 as id]                                                                                                                        |
+|                    |             HashJoinExec: mode=CollectLeft, join_type=Left, on=[(s__id@0, __optional__s__id@0)], projection=[q__id@2], NullsEqual: true                               |
+|                    |               ProjectionExec: expr=[id@0 as s__id]                                                                                                                    |
+|                    |                 FilterExec: id@0 = 46                                                                                                                                 |
+|                    |                   KeyStatisticsExec: distinct=[id=71]                                                                                                                 |
+|                    |                     DataSourceExec: partitions=1, partition_sizes=[1]                                                                                                 |
+|                    |               ProjectionExec: expr=[s__id@0 as __optional__s__id, q__id@3 as q__id]                                                                                   |
+|                    |                 PathMatchExec: endpoints edge inventory                                                                                                               |
+|                    |                   AggregateExec: mode=FinalPartitioned, gby=[s__id@0 as s__id, s__name@1 as s__name, s__url@2 as s__url], aggr=[], ordering_mode=PartiallySorted([0]) |
+|                    |                     RepartitionExec: partitioning=Hash([s__id@0, s__name@1, s__url@2], 18), input_partitions=18                                                       |
+|                    |                       AggregateExec: mode=Partial, gby=[s__id@0 as s__id, s__name@1 as s__name, s__url@2 as s__url], aggr=[], ordering_mode=PartiallySorted([0])      |
+|                    |                         RepartitionExec: partitioning=RoundRobinBatch(18), input_partitions=1                                                                         |
+|                    |                           ProjectionExec: expr=[id@0 as s__id, name@1 as s__name, url@2 as s__url]                                                                    |
+|                    |                             FilterExec: id@0 = 46                                                                                                                     |
+|                    |                               KeyStatisticsExec: distinct=[id=71]                                                                                                     |
+|                    |                                 DataSourceExec: partitions=1, partition_sizes=[1]                                                                                     |
+|                    |                   CoalescePartitionsExec                                                                                                                              |
+|                    |                     KeyStatisticsExec: distinct=[id=16080]                                                                                                            |
+|                    |                       RepartitionExec: partitioning=RoundRobinBatch(18), input_partitions=2                                                                           |
+|                    |                         DataSourceExec: partitions=2, partition_sizes=[1, 1]                                                                                          |
+|                    |                   KeyStatisticsExec: distinct=[id=71]                                                                                                                 |
+|                    |                     DataSourceExec: partitions=1, partition_sizes=[1]                                                                                                 |
+|                    |                   CoalescePartitionsExec                                                                                                                              |
+|                    |                     KeyStatisticsExec: distinct=[dst=62, src=16080]                                                                                                   |
+|                    |                       RepartitionExec: partitioning=RoundRobinBatch(18), input_partitions=2                                                                           |
+|                    |                         DataSourceExec: partitions=2, partition_sizes=[1, 1]                                                                                          |
+|                    |                   KeyStatisticsExec: distinct=[dst=19, src=70]                                                                                                        |
+|                    |                     DataSourceExec: partitions=1, partition_sizes=[1]                                                                                                 |
++--------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+

@@ -1,0 +1,16 @@
+MATCH (s:X {id:1}) MATCH (s)-[:A|B*1..2]-(q:Y) RETURN s.id AS s, q.id AS q Unsupported Cypher feature: path label 'X' is incompatible with its relationship types
+MATCH (s:X {id:1}) MATCH (s)-[:A|B*1..2]-(q) RETURN s.id AS s, q.id AS q Unsupported Cypher feature: path label 'X' is incompatible with its relationship types
+MATCH (s:Y {id:1}) MATCH (s)-[:A|B*1..2]-(q:Y) RETURN s.id AS s, q.id AS q [{'s': 1, 'q': 2}, {'s': 1, 'q': 3}]
+MATCH (s:Y {id:1}) MATCH (s)-[:A|B*1..2]-(q) RETURN s.id AS s, q.id AS q [{'s': 1, 'q': 2}, {'s': 1, 'q': 3}]
+MATCH (q:X {id:1}) MATCH (s:Y)-[:A|B*1..2]-(q) RETURN s.id AS s, q.id AS q Unsupported Cypher feature: path label 'X' is incompatible with its relationship types
+MATCH (q:X {id:1}) MATCH (s:Y)-[:A|B*1..2]-(q:Y) RETURN s.id AS s, q.id AS q Query planning error: Variable 'q' already has label 'X', cannot redefine as 'Y'
+MATCH (q:Y {id:1}) MATCH (s:Y)-[:A|B*1..2]-(q) RETURN s.id AS s, q.id AS q [{'s': 2, 'q': 1}, {'s': 3, 'q': 1}]
+MATCH (q:Y {id:1}) MATCH (s:Y)-[:A|B*1..2]-(q:Y) RETURN s.id AS s, q.id AS q [{'s': 2, 'q': 1}, {'s': 3, 'q': 1}]
+MATCH (s:X {id:1}) MATCH p = (s)-[:A|B*1..2]-(q:Y) RETURN s.id AS s, q.id AS q Unsupported Cypher feature: path label 'X' is incompatible with its relationship types
+MATCH (s:X {id:1}) MATCH p = (s)-[:A|B*1..2]-(q) RETURN s.id AS s, q.id AS q Unsupported Cypher feature: path label 'X' is incompatible with its relationship types
+MATCH (s:Y {id:1}) MATCH p = (s)-[:A|B*1..2]-(q:Y) RETURN s.id AS s, q.id AS q [{'s': 1, 'q': 2}, {'s': 1, 'q': 3}]
+MATCH (s:Y {id:1}) MATCH p = (s)-[:A|B*1..2]-(q) RETURN s.id AS s, q.id AS q [{'s': 1, 'q': 2}, {'s': 1, 'q': 3}]
+MATCH (q:X {id:1}) MATCH p = (s:Y)-[:A|B*1..2]-(q) RETURN s.id AS s, q.id AS q Unsupported Cypher feature: path label 'X' is incompatible with its relationship types
+MATCH (q:X {id:1}) MATCH p = (s:Y)-[:A|B*1..2]-(q:Y) RETURN s.id AS s, q.id AS q Query planning error: Variable 'q' already has label 'X', cannot redefine as 'Y'
+MATCH (q:Y {id:1}) MATCH p = (s:Y)-[:A|B*1..2]-(q) RETURN s.id AS s, q.id AS q [{'s': 2, 'q': 1}, {'s': 3, 'q': 1}]
+MATCH (q:Y {id:1}) MATCH p = (s:Y)-[:A|B*1..2]-(q:Y) RETURN s.id AS s, q.id AS q [{'s': 2, 'q': 1}, {'s': 3, 'q': 1}]

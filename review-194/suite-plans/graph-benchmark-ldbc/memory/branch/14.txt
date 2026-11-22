@@ -1,0 +1,13 @@
+      | ProjectionExec: expr=[__agg_0@0 as num_forums]                                                                                          |
+|                    |   AggregateExec: mode=Final, gby=[], aggr=[count(DISTINCT f__id) as __agg_0]                                                            |
+|                    |     CoalescePartitionsExec                                                                                                              |
+|                    |       AggregateExec: mode=Partial, gby=[], aggr=[count(DISTINCT f__id) as __agg_0]                                                      |
+|                    |         ProjectionExec: expr=[f__id@6 as f__id]                                                                                         |
+|                    |           CsrExpandExec: key=_anon_1__id, edges=309766, take=f[f__id*]                                                                  |
+|                    |             CsrExpandExec: key=tc__id, edges=16080, take=_anon_1[_anon_1__id*]                                                          |
+|                    |               RepartitionExec: partitioning=RoundRobinBatch(18), input_partitions=1                                                     |
+|                    |                 ProjectionExec: expr=[id@0 as tc__id]                                                                                   |
+|                    |                   FilterExec: name@1 = Athlete, projection=[id@0]                                                                       |
+|                    |                     KeyStatisticsExec: distinct=[id=71]                                                                                 |
+|                    |                       DataSourceExec: partitions=1, partition_sizes=[1]                                                                 |
++--------------------+-----------------------------------------------------------------------------------------------------------------------------------------+

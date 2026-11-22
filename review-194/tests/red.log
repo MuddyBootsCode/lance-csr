@@ -1,0 +1,62 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______________ test_undirected_alternation_bound_start_label[] ________________
+
+binding = ''
+
+    @pytest.mark.parametrize("binding", ["", "p = "])
+    def test_undirected_alternation_bound_start_label(binding):
+        cfg = (
+            GraphConfig.builder()
+            .node_table("X", "id")
+            .node_table("Y", "id")
+            .rel_table("A", "Y", "Y", "src", "dst")
+            .rel_table("B", "Y", "Y", "src", "dst")
+            .build()
+        )
+        tables = {
+            "X": pa.table({"id": [1]}),
+            "Y": pa.table({"id": [1, 2, 3]}),
+            "A": pa.table({"src": [1], "dst": [2]}),
+            "B": pa.table({"src": [3], "dst": [2]}),
+        }
+        engine = CypherEngine(cfg, tables)
+        path = f"MATCH {binding}(s:Y)-[:A|B*1..2]-(q:Y) RETURN q.id"
+        assert rows(engine.execute(f"MATCH (s:Y {{id: 1}}) {path}")) == [(2,), (3,)]
+>       with pytest.raises(ValueError, match="Variable 's' already has label 'X', cannot redefine as 'Y'"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+test_before.py:206: Failed
+_____________ test_undirected_alternation_bound_start_label[p = ] ______________
+
+binding = 'p = '
+
+    @pytest.mark.parametrize("binding", ["", "p = "])
+    def test_undirected_alternation_bound_start_label(binding):
+        cfg = (
+            GraphConfig.builder()
+            .node_table("X", "id")
+            .node_table("Y", "id")
+            .rel_table("A", "Y", "Y", "src", "dst")
+            .rel_table("B", "Y", "Y", "src", "dst")
+            .build()
+        )
+        tables = {
+            "X": pa.table({"id": [1]}),
+            "Y": pa.table({"id": [1, 2, 3]}),
+            "A": pa.table({"src": [1], "dst": [2]}),
+            "B": pa.table({"src": [3], "dst": [2]}),
+        }
+        engine = CypherEngine(cfg, tables)
+        path = f"MATCH {binding}(s:Y)-[:A|B*1..2]-(q:Y) RETURN q.id"
+        assert rows(engine.execute(f"MATCH (s:Y {{id: 1}}) {path}")) == [(2,), (3,)]
+>       with pytest.raises(ValueError, match="Variable 's' already has label 'X', cannot redefine as 'Y'"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+test_before.py:206: Failed
+=========================== short test summary info ============================
+FAILED test_before.py::test_undirected_alternation_bound_start_label[] - Fail...
+FAILED test_before.py::test_undirected_alternation_bound_start_label[p = ] - ...
+2 failed, 43 deselected in 0.44s

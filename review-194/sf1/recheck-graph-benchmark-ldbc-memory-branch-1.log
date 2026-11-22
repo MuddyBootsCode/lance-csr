@@ -1,0 +1,14 @@
+.                                                                        [100%]
+Wrote benchmark data in: work/sf1/recheck-graph-benchmark-ldbc-memory-branch-1.json
+
+
+------------------------------------------------------- benchmark: 1 tests ------------------------------------------------------
+Name (time in us)               Min         Max      Mean   StdDev    Median      IQR  Outliers  OPS (Kops/s)  Rounds  Iterations
+---------------------------------------------------------------------------------------------------------------------------------
+test_benchmark_query12     713.7080  1,472.7910  809.2619  77.5376  793.8955  51.7910     37;27        1.2357     402           1
+---------------------------------------------------------------------------------------------------------------------------------
+
+Legend:
+  Outliers: 1 Standard Deviation from Mean; 1.5 IQR (InterQuartile Range) from 1st Quartile and 3rd Quartile.
+  OPS: Operations Per Second, computed as 1 / Mean
+1 passed in 1.95s
